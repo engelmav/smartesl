@@ -1,6 +1,15 @@
 
 
 <div class="row marketing">
-  <h4>This is a question</h4>
-  <p>Checking our understanding.</p>
+  <h4>Quick question!</h4>
+  <p ng-model="question.body">{{question.body}}</p>
+
+
+<label data-ng-repeat="choice in question.choices" >
+  <input type="radio" name="foo" data-ng-model= "question.choices" data-ng-value="{{choice}}" />
+    {{choice}}
+    <br/>
+</label>
+</div>    
+    
 </div>

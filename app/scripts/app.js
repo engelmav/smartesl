@@ -31,7 +31,10 @@ angular
         redirectTo: '/'
       });
   })
-  .factory('dataService', function(){})
+  .factory('dataService', function(){
+
+
+  })
   .factory('modelService', function(){})
   .directive('question', function(){
 
@@ -42,8 +45,31 @@ angular
             },
             templateUrl: '/views/question_body.html',
             
-            controller: function($scope){
+            controller: function($scope,$http,$timeout){
+
               console.log('Inside the controller of the question directive.');
+
+              $scope.setupQuestion = function(data){
+                $scope.question.body = data.body;
+                $scope.question.choices = data.choices;
+              }
+
+              var lastQuestionId;
+
+              var timeout = '';
+              var poller = function() {
+                $http.get('http://127.0.0.1:5000/get_question').
+                  success(function(data, status, headers, config){
+                    console.log(data,status);
+                    lastQuestionId = data.id;
+                    if (lastQuestionId === data.id){
+                      $scope.setupQuestion(data);
+                    }
+                })
+                timeout = $timeout(poller, 2000);
+              };
+              poller();
+
 
 
 
