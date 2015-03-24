@@ -17,15 +17,16 @@ def getCurrentQuestion():
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello'
+def root():
+    return 'Smart ESL Application Server'
 
-@app.route('/set_question', methods=['POST'])
-def set_question(question):
-    # instructor sets current question
-    pass
+@app.route('/submit_answer', methods=['POST'])
+def submit_answer(answer):
+    print "Received answer: " + answer
+
 
 @app.route('/get_question', methods=['GET'])
+# https://github.com/corydolphin/flask-cors/blob/master/examples/view_based_example.py
 @cross_origin()
 def get_question():
     # student client polls for currently set question

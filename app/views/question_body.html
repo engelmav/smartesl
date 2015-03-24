@@ -3,13 +3,17 @@
 <div class="row marketing">
   <h4>Quick question!</h4>
   <p ng-model="question.body">{{question.body}}</p>
-
-
-<label data-ng-repeat="choice in question.choices" >
-  <input type="radio" name="foo" data-ng-model= "question.choices" data-ng-value="{{choice}}" />
-    {{choice}}
-    <br/>
-</label>
-</div>    
-    
+  <form>
+    <div ng-repeat="choice in question.choices">
+        <input type="radio" 
+          name="choices" 
+          ng-model="$parent.choice"
+          ng-value="choice" 
+          />
+          <label>{{choice}}</label>
+    </div>
+    <br />
+    <button type="submit" ng-click="submitAnswer(choice);">Click me to submit!</button>
+  </form>
 </div>
+

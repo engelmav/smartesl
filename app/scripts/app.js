@@ -52,7 +52,13 @@ angular
               $scope.setupQuestion = function(data){
                 $scope.question.body = data.body;
                 $scope.question.choices = data.choices;
-              }
+              };
+
+
+              $scope.submitAnswer = function(answer){
+                console.log('Submitted answer: ' + answer);
+                $http.get('http://127.0.0.1:5000/submit_answer').
+              };
 
               var lastQuestionId;
 
