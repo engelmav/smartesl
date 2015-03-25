@@ -57,14 +57,17 @@ angular
 
               $scope.submitAnswer = function(answer){
                 console.log('Submitted answer: ' + answer);
-                $http.get('http://127.0.0.1:5000/submit_answer').
+                $http.post('http://127.0.0.1:5000/question/submit_answer', {"url": 'test'}).
+                  success(function(results){
+                    console.log('submitAnswer success response: ' + results)
+                  });
               };
 
               var lastQuestionId;
 
               var timeout = '';
               var poller = function() {
-                $http.get('http://127.0.0.1:5000/get_question').
+                $http.get('http://127.0.0.1:5000/question/get_question').
                   success(function(data, status, headers, config){
                     console.log(data,status);
                     lastQuestionId = data.id;

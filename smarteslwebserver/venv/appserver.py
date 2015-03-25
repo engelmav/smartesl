@@ -1,6 +1,8 @@
-from flask import Flask, jsonify
-from flask.ext.cors import cross_origin
+from flask import Flask, jsonify, json, request
+from flask.ext.cors import CORS
+
 app = Flask(__name__)
+CORS(app, resources=r'/question/*', allow_headers='Content-Type')
 
 # use http://flask.pocoo.org/docs/0.10/appcontext/ to initialize stuff on the server
 # if needed
@@ -20,14 +22,14 @@ def getCurrentQuestion():
 def root():
     return 'Smart ESL Application Server'
 
-@app.route('/submit_answer', methods=['POST'])
-def submit_answer(answer):
-    print "Received answer: " + answer
+#@app.route('/submit_answer', methods=['POST'])
+#def submit_answer(answer):
+#    print "Received answer: " + answer
 
 
-@app.route('/get_question', methods=['GET'])
+@app.route('/question/get_question', methods=['GET'])
 # https://github.com/corydolphin/flask-cors/blob/master/examples/view_based_example.py
-@cross_origin()
+#@cross_origin()
 def get_question():
     # student client polls for currently set question
     # mock sending json question.
@@ -35,13 +37,16 @@ def get_question():
     return jsonify(getCurrentQuestion())
 
 
-@app.route('/submit_answer', methods=['POST'])
-def submit_answer(answer):
+@app.route('/question/submit_answer', methods=['POST'])
+def submit_answer():
+    data = json.loads(request.data.decode())
+    print data
     # student answers question
-    pass
+    return jsonify({'oh':'jes'})
 
 
 
 if __name__ == '__main__':
+
     app.run(debug=True)
 

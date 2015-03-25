@@ -42,4 +42,6 @@ create table questions (
 question_id serial primary key,
 body text);
 
-
+# starting appserver
+$ . venv/bin/activate
+$ python appserver.py
