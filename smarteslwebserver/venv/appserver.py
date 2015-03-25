@@ -30,7 +30,7 @@ def root():
 @app.route('/question/get_question', methods=['GET'])
 # https://github.com/corydolphin/flask-cors/blob/master/examples/view_based_example.py
 #@cross_origin()
-def get_question():
+def getQuestion():
     # student client polls for currently set question
     # mock sending json question.
 
@@ -38,7 +38,7 @@ def get_question():
 
 
 @app.route('/question/submit_answer', methods=['POST'])
-def submit_answer():
+def submitAnswer():
     data = json.loads(request.data.decode())
     print data
     # student answers question

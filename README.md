@@ -42,6 +42,14 @@ create table questions (
 question_id serial primary key,
 body text);
 
+# give appuser permission to all these tables, for ex:
+smartesl=# grant all privileges on table instructors to appuser;
+and also the sequences..
+grant all privileges on SEQUENCE instructors_instructor_id_seq to appuser;
+
+
 # starting appserver
 $ . venv/bin/activate
 $ python appserver.py
+
+
