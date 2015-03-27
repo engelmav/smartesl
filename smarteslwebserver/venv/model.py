@@ -1,33 +1,61 @@
-import psycopg2
+import psycopg2, json
 
 DB_CXN_STR = "dbname=smartesl user=appuser password=a0kroger host=localhost port=15432"
 
 class DBAccessor:
-	def __init__(self):
-		conn = psycopg2.connect(DB_CXN_STR)
-		self.curr = conn.cursor()
 
-	def getQuestionById(self,id):
-		q = "select * from questions where id = %"
-		print q
-		pass
-	def getStudentListByInstructor(self,instructor):
-		pass
+    def __init__(self):
+        self.conn = psycopg2.connect(DB_CXN_STR)
+        self.cur = self.conn.cursor()
 
-	def addInstructor(firstname,lastname,email,phone):
-		# insert into instructors ( firstname, lastname, email, phone_number ) values ('Vincent','Engelmann', 'bogus.addr@somehost.com','555-555-5555');
-		pass
+    def getQuestionById(self,id):
+        # select q.body, c.choice_text from questions q left join choices c on q.question_id = c.question_id;
+        q = "select * from questions where id = %"
+        print q
+        pass
+    def getStudentListByInstructor(self,instructor):
+        pass
 
-	def addStudent(self,firstname,lastname,email,phone):
-		# insert into students ( firstname, lastname, email, phone_number ) values ('Martin','Sole', 'bogus.addr@somehost.cat','93 304 12 03');
+    def addInstructor(self,firstname,lastname,email,phone):
+        self.cur.execute("""
+            insert into instructors ( firstname, lastname, email, phone_number )
+            values ( %s, %s, %s, %s );""",
+            (firstname,lastname,email,phone))
+        self.conn.commit()
 
-	def addQuestion():
-		pass
+    def addStudent(self,firstname,lastname,email,phone):
+        self.cur.execute("""
+            insert into students ( firstname, lastname, email, phone_number )
+            values ( %s, %s, %s, %s );""",
+            (firstname,lastname,email,phone))
+        self.conn.commit()
+
+    def addQuestion(self,question_data):
+        body = question_data['body']
+
+        self.cur.execute("""
+           insert into questions ( body )
+           values ( %s ) RETURNING question_id;""",
+           (body,))
+        lastQuestionId = self.cur.fetchone()[0]
+        print "Last question ID: " + str(lastQuestionId)
+        self.conn.commit()
+
+        choices = question_data['choices']
+
+        for choice in choices:
+            self.cur.execute("""
+                insert into choices ( question_id, choice_text )
+                values ( %s, %s );""",
+                (lastQuestionId, choice))
+        self.conn.commit()
+
+
 
 
 if __name__ == '__main__':
 
-	dba = DBAccessor()
-	dba.addInstructor
+    dba = DBAccessor()
+    dba.addStudent('SomeStudent','George','somname@host.com','32 43 22222')
+    # http://initd.org/psycopg/docs/usage.html
 
-	

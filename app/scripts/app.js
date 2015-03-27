@@ -27,16 +27,21 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
       })
+      .when('/create_question', {
+        templateUrl: 'views/create_question.html',
+        controller: 'CreateQuestionCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
   })
+  .value('appserver', 'http://127.0.0.1:5000')
   .factory('dataService', function(){
 
 
   })
   .factory('modelService', function(){})
-  .directive('question', function(){
+  .directive('question', function(appserver){
 
         return {
             restrict: 'E',
@@ -57,7 +62,7 @@ angular
 
               $scope.submitAnswer = function(answer){
                 console.log('Submitted answer: ' + answer);
-                $http.post('http://127.0.0.1:5000/question/submit_answer', {"url": 'test'}).
+                $http.post(appserver + '/question/submit_answer', { "answer": answer }).
                   success(function(results){
                     console.log('submitAnswer success response: ' + results)
                   });
@@ -67,7 +72,7 @@ angular
 
               var timeout = '';
               var poller = function() {
-                $http.get('http://127.0.0.1:5000/question/get_question').
+                $http.get(appserver + '/question/get_question').
                   success(function(data, status, headers, config){
                     console.log(data,status);
                     lastQuestionId = data.id;

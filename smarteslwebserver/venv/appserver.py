@@ -1,8 +1,12 @@
 from flask import Flask, jsonify, json, request
 from flask.ext.cors import CORS
+from model import DBAccessor
 
 app = Flask(__name__)
+with app.app_context():
+    dba = DBAccessor()
 CORS(app, resources=r'/question/*', allow_headers='Content-Type')
+
 
 # use http://flask.pocoo.org/docs/0.10/appcontext/ to initialize stuff on the server
 # if needed
@@ -44,7 +48,12 @@ def submitAnswer():
     # student answers question
     return jsonify({'oh':'jes'})
 
+@app.route('/question/submit_question', methods=['POST'])
+def submitQuestion():
+    question = json.loads(request.data.decode())
+    dba.addQuestion(question)
 
+    return jsonify({'oh':'jes'})
 
 if __name__ == '__main__':
 

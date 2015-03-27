@@ -36,6 +36,7 @@ l=# create table choices (
 choice_id serial PRIMARY KEY, question_id integer,
 tag_name text
 );
+alter table choices add column choice_text text;
 
 
 create table questions (
