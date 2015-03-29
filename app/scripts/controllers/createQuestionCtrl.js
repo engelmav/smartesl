@@ -7,6 +7,8 @@ angular.module('smarteslApp')
   	// then use it in your ng-models. Then your submit won't
   	// need to explicitly pass in this huge set of variables
 
+  	$scope.questionBody = 'Enter the question to ask in this field.'
+
   	console.log('Inside the CreateQuestionCtrl contoller');
 
 
@@ -29,19 +31,24 @@ angular.module('smarteslApp')
 	$scope.removeMetaInput = function(index){
 	    $scope.metainputs.splice(index,1);
 	}
-  	$scope.submitQuestion = function(choices,metatags){
-  		console.log(choices);
-  		console.log(metatags);
-  		for (var key in choices){
-  			console.log('choice: ' + choices['field'][key]);
+  	$scope.submitQuestion = function(questionBody,choices,metatags){
+  		var choicesArr = [];
+  		for (var i=0; i<choices.length; i++){
+  			choicesArr.push(choices[i]['field'])
   		}
-        console.log('Submitted question.');
+  		var metaTagsArr = [];
+  		for (var i=0; i<metatags.length; i++){
+  			metaTagsArr.push(metatags[i]['field'])
+  		}
+
+
+        //console.log('Submitted question.');
         var question = {};
         question.body = questionBody;
-        question.choices = [];
-        question.choices.push(choice1, choice2, choice3);
-        question.metatags = [];
-        question.metatags.push(metatag1,metatag2,metatag3);
+        //question.choices = [];
+        question.choices = choicesArr;
+        //question.metatags = [];
+        question.metatags= metaTagsArr;
 
         console.log('Submitting the following question: ' + question);
 

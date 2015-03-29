@@ -6,7 +6,7 @@ angular.module('smarteslApp')
   	// give me life
   	// here's the idea: http://jsfiddle.net/A6G5r/
 
-  	$scope.questionList = [];
+  	$scope.showNewQuestionTpl = false;
 
 
  

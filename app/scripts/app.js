@@ -40,8 +40,7 @@ angular
       });
   })
   .value('appserver', 'http://127.0.0.1:5000')
-  .factory('dataService', function(){
-
-
+  .factory('newQuestionPanelSvc', function(){
+    // manage new question open or closed
   })
   .factory('modelService', function(){});

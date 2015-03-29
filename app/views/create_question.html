@@ -1,29 +1,36 @@
-<div class="row">
-	<h3>Create Question</h3>
-	<h4>Enter your question in the form below.</h4>
-	<!-- Please refactor me, what is this I don't even -->
-	<h5>Body</h5>
-	<textarea type="text" class="form-control" ng-model="questionBody" />
-	<br />
+<div ng-contoller="CreateQuestionCtrl">
+    <div class="panel panel-default">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Create a question</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                	<h4>Body</h4>
+                	<textarea type="text" class="form-control" ng-model="questionBody" />
+                	<br />
 
-	<h5>Choices</h5>
-    <div ng-repeat="input in inputs">
-        <input type="text" ng-model="input.field" />
-        <button ng-click="removeInput($index)">Remove</button>
-    </div>
-    <button ng-click="addInput()">Add a Choice</button>
+                	<h4>Choices</h4>
+                    <div ng-repeat="input in inputs">
+                        <input type="text" ng-model="input.field" />
+                        <button ng-click="removeInput($index)">Remove</button>
+                    </div>
+                    <button ng-click="addInput()">Add a Choice</button>
+                    <br />
+                 
+                	<h4>Metatags</h4>
+                    <div ng-repeat="metainput in metainputs">
+                        <input type="text" ng-model="metainput.field" />
+                        <button ng-click="removeMetaInput($index)">Remove</button>
+                    </div>
+                    <button ng-click="addMetaInput()">Add a Choice</button>
+                    <br /><br />
+                    <button type="button" class="btn btn-primary" ng-click="submitQuestion(questionBody,inputs,metainputs)">Submit Question</button>
 
- 
-	<h5>Metatags</h5>
-    <div ng-repeat="metainput in metainputs">
-        <input type="text" ng-model="metainput.field" />
-        <button ng-click="removeMetaInput($index)">Remove</button>
-    </div>
-    <button ng-click="addMetaInput()">Add a Choice</button>
+                </div>
+            </div>
+        </div>
+
 
 </div>
-
-
-			<button type="button" class="btn btn-primary" ng-click="submitQuestion(inputs,metainputs)">Submit Question</button>
-	</div>
 </div>
