@@ -11,4 +11,5 @@ angular.module('smarteslApp')
   .controller('MainCtrl', function ($scope) {
   	console.log('Main controller entered.');
 
+
   });

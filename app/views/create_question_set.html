@@ -1,0 +1,50 @@
+<div class="row">
+<h3>Create Question Set</h3>
+<h4>Use this to create your Question Timeline</h4>
+<p>A question timeline is played by you throughout your class.  Use the Add Question button to add a question that you or someone else has created.</p>
+<!-- Please refactor me, what is this I don't even -->
+<!-- Reference: http://getbootstrap.com/css/#grid-options -->
+</div>
+<div class="row">
+  <h5>Name your Question Timeline:</h5>
+   <input type="text" class="form-control" ng-model="questionSetName" />
+
+<div class="container-fluid">
+  <div class="row">
+    <h5>Questions entered in your Timeline:</h5>
+
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="...">
+      </span>
+        <input type="text" class="form-control" aria-label="...">
+    </div><!-- /input-group -->
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="...">
+      </span>
+        <input type="text" class="form-control" aria-label="...">
+    </div><!-- /input-group -->
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="...">
+      </span>
+        <input type="text" class="form-control" aria-label="...">
+    </div><!-- /input-group -->
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="...">
+      </span>
+        <input type="text" class="form-control" aria-label="...">
+    </div><!-- /input-group -->
+  </div>
+  <br/>
+  <div class="row">
+      <button type="button" class="btn-primary" ng-click="submitQuestionSet(question1,question2,question3,question4,question5,question6)">Save Timeline</button>
+      <button type="button" class="btn-primary" ng-click="addQuestion()">Add Question</button>
+      <button type="button" class="btn-danger">Delete Selected</button>
+      <br />
+  </div><!--endrow-->
+
+</div> <!--endof container-->
+

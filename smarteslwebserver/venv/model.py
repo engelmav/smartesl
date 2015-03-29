@@ -50,6 +50,13 @@ class DBAccessor:
                 (lastQuestionId, choice))
         self.conn.commit()
 
+        metatags = question_data['metatags']
+        for metatag in metatags:
+            self.cur.execute("""
+                insert into metatags ( tag_name, question_id )
+                values ( %s, %s );""",
+                (metatag, lastQuestionId))
+        self.conn.commit()
 
 
 
