@@ -1,12 +1,27 @@
 'use strict';
 
 angular.module('smarteslApp')
-  .controller('QuestionOutlineCtrl', function (appserver,$scope,$http) {
+  .controller('QuestionOutlineCtrl', function (appserver,$scope,$http,newQuestionPanelSvc) {
 
-  	// give me life
-  	// here's the idea: http://jsfiddle.net/A6G5r/
+  	$scope.showNewQuestion = false;
 
-  	$scope.showNewQuestionTpl = false;
+  	$scope.questionSvc = newQuestionPanelSvc;
+
+  	$scope.createNewQuestion = function() {
+  		if ($scope.questionSvc.showNewQuestion == false){
+
+  			$scope.questionSvc.showNewQuestion = true;
+  			$scope.showNewQuestion = $scope.questionSvc.showNewQuestion;
+  			console.log('Opening new question panel.');
+
+  		} else {
+
+  			$scope.questionSvc.showNewQuestion = false;
+  			$scope.showNewQuestion = $scope.questionSvc.showNewQuestion;
+  			console.log('Closing new question panel.');
+
+  		}
+  	}
 
 
  

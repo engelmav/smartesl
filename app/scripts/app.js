@@ -28,11 +28,11 @@ angular
         controller: 'AboutCtrl'
       })
       .when('/create_question', {
-        templateUrl: 'views/create_question.html',
+        templateUrl: 'views/create_question_container.html',
         controller: 'CreateQuestionCtrl'
       })
       .when('/create_question_set', {
-        templateUrl: 'views/create_question_set.html',
+        templateUrl: 'views/create_question_timeline.html',
         controller: 'QuestionOutlineCtrl'
       })
       .otherwise({
@@ -40,7 +40,4 @@ angular
       });
   })
   .value('appserver', 'http://127.0.0.1:5000')
-  .factory('newQuestionPanelSvc', function(){
-    // manage new question open or closed
-  })
   .factory('modelService', function(){});

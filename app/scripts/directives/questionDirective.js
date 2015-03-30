@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('smarteslApp')
   .directive('question', function(appserver){
 
@@ -20,9 +22,9 @@ angular.module('smarteslApp')
 
               $scope.submitAnswer = function(answer){
                 console.log('Submitted answer: ' + answer);
-                $http.post(appserver + '/question/submit_answer', { "answer": answer }).
+                $http.post(appserver + '/question/submit_answer', { 'answer': answer }).
                   success(function(results){
-                    console.log('submitAnswer success response: ' + results)
+                    console.log('submitAnswer success response: ' + results);
                   });
               };
 
@@ -32,12 +34,12 @@ angular.module('smarteslApp')
               var poller = function() {
                 $http.get(appserver + '/question/get_question').
                   success(function(data, status, headers, config){
-                    console.log(data,status);
+                    console.log(data,status, headers, config);
                     lastQuestionId = data.id;
                     if (lastQuestionId === data.id){
                       $scope.setupQuestion(data);
                     }
-                })
+                });
                 timeout = $timeout(poller, 2000);
               };
               poller();

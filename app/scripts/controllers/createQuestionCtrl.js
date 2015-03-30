@@ -3,6 +3,8 @@
 angular.module('smarteslApp')
   .controller('CreateQuestionCtrl', function (appserver,$scope,$http) {
 
+  	// I was oved into the createQuestionDirective
+/*
   	// You can probably just create a scope variable and
   	// then use it in your ng-models. Then your submit won't
   	// need to explicitly pass in this huge set of variables
@@ -41,7 +43,6 @@ angular.module('smarteslApp')
   			metaTagsArr.push(metatags[i]['field'])
   		}
 
-
         //console.log('Submitted question.');
         var question = {};
         question.body = questionBody;
@@ -58,4 +59,5 @@ angular.module('smarteslApp')
           });
 
   	};
+*/
   });

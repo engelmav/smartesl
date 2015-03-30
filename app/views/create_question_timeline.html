@@ -12,10 +12,12 @@
   <div class="row">
     <h4>Questions entered in your Timeline:</h4>
       <button type="button" class="btn-primary" ng-click="addQuestion()">Add Existing...</button>  
-      <button type="button" class="btn-primary" ng-click="showNewQuestionTpl = ! showNewQuestionTpl">Create New..</button>    
+      <button type="button" class="btn-primary" ng-click="createNewQuestion()">Create New...</button>    
       <button type="button" class="btn-danger">Delete Selected</button>
       <!-- http://plnkr.co/edit/eZTtRVTPb7k9kgS8woKh?p=preview -->
-      <div class="row" ng-show="showNewQuestionTpl"><newquestion></newquestion></div>
+      <div class="row" ng-show="showNewQuestion">
+        <newquestion></newquestion>
+      </div>
       <br /><br />
   </div>
 
