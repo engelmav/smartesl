@@ -23,9 +23,9 @@
                     <input type="text" ng-model="metainput.field" />
                     <button ng-click="removeMetaInput($index)">Remove</button>
                 </div>
-                <button ng-click="addMetaInput()">Add a Choice</button>
+                <button ng-click="addMetaInput()">Add a Metatag</button>
                 <br /><br />
-                <button type="button" class="btn btn-primary" ng-click="submitQuestion(questionBody,inputs,metainputs)">Submit Question</button>
+                <button type="button" class="btn btn-primary" ng-click="submitQuestion(questionBody,inputs,metainputs)">{{submitButtonText}}</button>
 
             </div>
         </div>

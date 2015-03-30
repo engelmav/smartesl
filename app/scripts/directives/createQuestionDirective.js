@@ -12,12 +12,16 @@ angular.module('smarteslApp')
             
             controller: function($scope,$http,$timeout,appserver,newQuestionPanelSvc){
 
-              $scope.questionSvc = newQuestionPanelSvc;
+              $scope.submitButtonText = 'test';
 
-              console.log('Called from outline: ' + $scope.questionSvc.fromOutline);
+              $scope.questionSvc = newQuestionPanelSvc;
               
-              $scope.$watch('questionSvc.showNewQuestion', function(newVal,oldVal){
-                console.log('Show new question panel : ' + newVal);
+              $scope.$watch('questionSvc.showNewQuestion', function(){
+                if ($scope.questionSvc.showNewQuestion == true){ // opening in NewQuestionTimeline
+                  $scope.submitButtonText = 'Save to timeline!';
+                } else {
+                  $scope.submitButtonText = 'Save!';
+                }
               });
 
               //console.log('Inside the controller of the new question directive.');
@@ -25,8 +29,6 @@ angular.module('smarteslApp')
               //console.log('From Service: ' + $scope.questionSvc.getStarted);
 
               $scope.questionBody = 'Enter the question to ask in this field.';
-
-
 
               $scope.inputs = [{field:'choice text'}];
 
@@ -48,6 +50,7 @@ angular.module('smarteslApp')
                   $scope.metainputs.splice(index,1);
               };
               $scope.submitQuestion = function(questionBody,choices,metatags){
+
                 var choicesArr = [];
                 for (var i=0; i<choices.length; i++){
                   choicesArr.push(choices[i]['field']);
@@ -57,13 +60,15 @@ angular.module('smarteslApp')
                   metaTagsArr.push(metatags[i]['field']);
                 }
 
-                //console.log('Submitted question.');
                 var question = {};
                 question.body = questionBody;
-                //question.choices = [];
                 question.choices = choicesArr;
-                //question.metatags = [];
                 question.metatags = metaTagsArr;
+
+                // Load everything into the the service so that it can be shared with other components
+                // (like the timelime)
+
+                $scope.questionSvc.questionData = question;
 
                 console.log('Submitting the following question: ' + question);
 

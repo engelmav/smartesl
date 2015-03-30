@@ -21,7 +21,11 @@ angular.module('smarteslApp')
   			console.log('Closing new question panel.');
 
   		}
-  	}
+  	};
+
+  	$scope.$watch('questionSvc.questionData', function(){
+  		console.log('questioOutline now sees question data');
+  	});
 
 
  
