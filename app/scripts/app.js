@@ -23,10 +23,6 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
       .when('/create_question', {
         templateUrl: 'views/create_question_container.html',
         controller: 'CreateQuestionCtrl'

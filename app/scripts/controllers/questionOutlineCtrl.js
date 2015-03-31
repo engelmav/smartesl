@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('smarteslApp')
-  .controller('QuestionOutlineCtrl', function (appserver,$scope,$http,newQuestionPanelSvc) {
+  .controller('QuestionOutlineCtrl', function (appserver,$scope,$http,newQuestionPanelSvc,questionOutlineSvc) {
 
   	$scope.showNewQuestion = false;
 
   	$scope.questionSvc = newQuestionPanelSvc;
 
   	$scope.createNewQuestion = function() {
-  		if ($scope.questionSvc.showNewQuestion == false){
+  		if ($scope.questionSvc.showNewQuestion === false){
 
   			$scope.questionSvc.showNewQuestion = true;
   			$scope.showNewQuestion = $scope.questionSvc.showNewQuestion;
@@ -20,12 +20,14 @@ angular.module('smarteslApp')
   			$scope.showNewQuestion = $scope.questionSvc.showNewQuestion;
   			console.log('Closing new question panel.');
 
-  		}
-  	};
+      }
+  	}
 
   	$scope.$watch('questionSvc.questionData', function(){
-  		console.log('questioOutline now sees question data');
+  		console.log('questioOutlineCtrl now sees question data');
   	});
+    
+    $scope.questionsInTimeline = questionOutlineSvc.questionPreviewList;
 
 
  

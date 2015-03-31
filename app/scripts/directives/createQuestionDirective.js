@@ -10,7 +10,7 @@ angular.module('smarteslApp')
             },
             templateUrl: '/views/create_question.html',
             
-            controller: function($scope,$http,$timeout,appserver,newQuestionPanelSvc){
+            controller: function($scope,$http,$timeout,appserver,newQuestionPanelSvc,questionOutlineSvc){
 
               $scope.submitButtonText = 'test';
 
@@ -66,16 +66,19 @@ angular.module('smarteslApp')
                 question.metatags = metaTagsArr;
 
                 // Load everything into the the service so that it can be shared with other components
-                // (like the timelime)
+                // (like the timeline)
 
                 $scope.questionSvc.questionData = question;
 
                 console.log('Submitting the following question: ' + question);
-
                 $http.post(appserver + '/question/submit_question', question ).
                   success(function(results){
                     console.log('submitAnswer success response: ' + results);
                 });
+
+                console.log('Storing in service for question outline preview');
+
+                questionOutlineSvc.addQuestion(question);
               };
             },
             controllerAs: 'CreateQuestionCtrl'

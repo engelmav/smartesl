@@ -6,6 +6,7 @@ function NewQuestionSvc(appserver,$http){
 	this.questionData = {}
 
 	this.getStarted = 'OK';
+	this.showNewQuestion = false;
 	this.fromOutline = false;
 
 

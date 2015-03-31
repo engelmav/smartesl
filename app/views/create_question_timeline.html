@@ -20,15 +20,9 @@
       </div>
       <br /><br />
   </div>
-
-  <div class="row">
-    <div class="input-group">
-      <span class="input-group-addon">
-        <input type="checkbox" aria-label="...">
-      </span>
-        <input type="text" class="form-control" aria-label="...">
-    </div><!-- /input-group -->
-  </div>
+  <!-- That question=question allows the the directive to pick up the question data -->
+  <questionpreview ng-repeat="question in questionsInTimeline" question="question"></questionpreview>
+    {{question}}  
   <br/>
   <div class="row">
       <button type="button" class="btn-primary" ng-click="submitQuestionSet(question1,question2,question3,question4,question5,question6)">Save Timeline</button>
