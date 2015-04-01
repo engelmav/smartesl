@@ -35,7 +35,8 @@ create table metatags (
 create table choices (
 	choice_id serial PRIMARY KEY, question_id integer,
 	tag_name text,
-	choice_text text);
+	choice_text text,
+    iscorrect boolean);
 
 create table questions (
 	question_id serial primary key,

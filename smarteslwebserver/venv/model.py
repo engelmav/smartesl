@@ -13,6 +13,7 @@ class DBAccessor:
         q = "select * from questions where id = %"
         print q
         pass
+
     def getStudentListByInstructor(self,instructor):
         pass
 
@@ -31,6 +32,7 @@ class DBAccessor:
         self.conn.commit()
 
     def addQuestion(self,question_data):
+        print question_data
         body = question_data['body']
 
         self.cur.execute("""
@@ -43,11 +45,12 @@ class DBAccessor:
 
         choices = question_data['choices']
 
+
         for choice in choices:
             self.cur.execute("""
-                insert into choices ( question_id, choice_text )
-                values ( %s, %s );""",
-                (lastQuestionId, choice))
+                insert into choices ( question_id, choice_text, iscorrect )
+                values ( %s, %s, %s );""",
+                (lastQuestionId, choice[0], choice[1]))
         self.conn.commit()
 
         metatags = question_data['metatags']

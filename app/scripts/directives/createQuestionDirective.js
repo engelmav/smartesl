@@ -30,7 +30,7 @@ angular.module('smarteslApp')
 
               $scope.questionBody = 'Enter the question to ask in this field.';
 
-              $scope.inputs = [{field:'choice text'}];
+              $scope.inputs = [{  field:'choice text', isCorrect:'false'  }];
 
               $scope.addInput = function(){
                   $scope.inputs.push({field:'', value:''});
@@ -50,10 +50,10 @@ angular.module('smarteslApp')
                   $scope.metainputs.splice(index,1);
               };
               $scope.submitQuestion = function(questionBody,choices,metatags){
-
+                console.log('choices data: ' + JSON.stringify(choices))
                 var choicesArr = [];
                 for (var i=0; i<choices.length; i++){
-                  choicesArr.push(choices[i]['field']);
+                  choicesArr.push( [ choices[i]['field'], choices[i]['isCorrect'] ] );
                 }
                 var metaTagsArr = [];
                 for (var i=0; i<metatags.length; i++){
@@ -70,7 +70,7 @@ angular.module('smarteslApp')
 
                 $scope.questionSvc.questionData = question;
 
-                console.log('Submitting the following question: ' + question);
+                console.log('Submitting the following question: ' + JSON.stringify(question));
                 $http.post(appserver + '/question/submit_question', question ).
                   success(function(results){
                     console.log('submitAnswer success response: ' + results);
