@@ -43,9 +43,10 @@ angular.module('smarteslApp')
                 timeout = $timeout(poller, 2000);
               };
               poller();
-
-
-
+              // stop polling when moving away from component
+              $scope.$on('$destroy', function(){
+                  $timeout.cancel(timeout);
+              });
 
             },
             controllerAs: 'question'

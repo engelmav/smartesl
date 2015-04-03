@@ -2,6 +2,9 @@
 
 
 function NewQuestionSvc(appserver,$http){
+	// This service is duplicating some of what createQuestionDirective
+	// already does. We need to find the code that isn't used here and
+	// remove it.
 
 	this.questionData = {}
 
@@ -9,7 +12,7 @@ function NewQuestionSvc(appserver,$http){
 	this.showNewQuestion = false;
 	this.fromOutline = false;
 
-
+/*
 	this.questionBody = 'Enter the question to ask in this field.';
 	this.inputs = [{field:'choice text'}];
 
@@ -52,9 +55,10 @@ function NewQuestionSvc(appserver,$http){
 
 		$http.post(appserver + '/question/submit_question', question ).
 		success(function(results){
-		console.log('submitAnswer success response: ' + results);
+		console.log('submitAnswer success response: ' + JSON.stringify(results));
 		});
 	};
+	*/
 
 }
 

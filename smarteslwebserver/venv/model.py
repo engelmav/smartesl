@@ -42,6 +42,7 @@ class DBAccessor:
         lastQuestionId = self.cur.fetchone()[0]
         print "Last question ID: " + str(lastQuestionId)
         self.conn.commit()
+        return lastQuestionId
 
         choices = question_data['choices']
 

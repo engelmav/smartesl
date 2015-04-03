@@ -10,7 +10,7 @@ angular.module('smarteslApp')
             },
             templateUrl: '/views/create_question.html',
             
-            controller: function($scope,$http,$timeout,appserver,newQuestionPanelSvc,questionOutlineSvc){
+            controller: function($scope,$http,$timeout,appserver,newQuestionPanelSvc,questionTimelineSvc){
 
               $scope.submitButtonText = 'test';
 
@@ -24,11 +24,7 @@ angular.module('smarteslApp')
                 }
               });
 
-              //console.log('Inside the controller of the new question directive.');
-
-              //console.log('From Service: ' + $scope.questionSvc.getStarted);
-
-              $scope.questionBody = 'Enter the question to ask in this field.';
+              $scope.questionBody = 'Twitter was ______ in 2006.';
 
               $scope.inputs = [{  field:'choice text', isCorrect:'false'  }];
 
@@ -73,12 +69,19 @@ angular.module('smarteslApp')
                 console.log('Submitting the following question: ' + JSON.stringify(question));
                 $http.post(appserver + '/question/submit_question', question ).
                   success(function(results){
-                    console.log('submitAnswer success response: ' + results);
+                    console.log('submitAnswer success response: ' + JSON.stringify(results));
+                    // you will need the ID for questions that are inserted into a timeline.
+                    if ($scope.questionSvc.showNewQuestion == true){
+                      question['questionId'] = results['questionId'];
+                      console.log('Question ID added to question object: ' + JSON.stringify(question));
+                      $scope.questionSvc.showNewQuestion == false;
+                    }
+
                 });
 
-                console.log('Storing in service for question outline preview');
+                console.log('Storing in service for question timeline preview');
 
-                questionOutlineSvc.addQuestion(question);
+                questionTimelineSvc.addQuestion(question);
               };
             },
             controllerAs: 'CreateQuestionCtrl'

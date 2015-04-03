@@ -21,13 +21,13 @@
       <br /><br />
   </div>
   <!-- That question=question allows the the directive to pick up the question data -->
-  <questionpreview ng-repeat="question in questionsInTimeline" question="question"></questionpreview>
-    {{question}}  
+    <!-- these things need to be sortable http://a5hik.github.io/ng-sortable/#/ -->
+  <questionpreview ng-repeat="question in questionsInTimeline" question="question" index="$index"></questionpreview>
+
   <br/>
   <div class="row">
-      <button type="button" class="btn-primary" ng-click="submitQuestionSet(question1,question2,question3,question4,question5,question6)">Save Timeline</button>
+      <button type="button" class="btn-primary" ng-click="submitTimeline()">Save Timeline</button>
       <br />
   </div><!--endrow-->
 
 </div> <!--endof container-->
-

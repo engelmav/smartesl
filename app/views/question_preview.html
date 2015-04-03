@@ -1,8 +1,17 @@
-<div class="row">
-	<input type="checkbox" aria-label="...">
-	<p>Question body: {{question.body}}</p>
-	<ul>
-	    <li>Choices: {{question.choices}}</li>
-	    <li> Metatags: {{question.metatags}}</li>
-	</ul>
-</div>
+{{question.body}}
+<table>	
+	<tbody ng-repeat="choice in question.choices">
+		<tr>
+			<td>{{choice[0]}}</td><td ng-show="choice[1]"><span class="label label-success">correct!</span><td>
+		</tr>
+	</tbody>
+</table>
+<table class="metatags">
+	<tr>
+		<td>Metatags:</td><td ng-repeat="metatag in question.metatags"><span class="label label-primary">{{metatag}}</span></td>
+	</tr>
+</table>
+
+<button ng-click="removeQuestion($parent.$index)">Remove</button>
+
+<br />

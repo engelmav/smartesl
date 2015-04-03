@@ -29,7 +29,7 @@ angular
       })
       .when('/create_question_set', {
         templateUrl: 'views/create_question_timeline.html',
-        controller: 'QuestionOutlineCtrl'
+        controller: 'QuestionTimelineCtrl'
       })
       .otherwise({
         redirectTo: '/'

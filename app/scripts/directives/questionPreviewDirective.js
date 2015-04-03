@@ -1,24 +1,20 @@
 'use strict';
 
 angular.module('smarteslApp')
-  .directive('questionpreview', function(appserver,questionOutlineSvc){
+  .directive('questionpreview', function(appserver,questionTimelineSvc){
 
     return {
-        restrict: 'E',
-        scope: {
-            question: '=' // inherit from parent
-        },
-        templateUrl: '/views/question_preview.html',
-        
-        controller: function($scope,$http,$timeout,questionOutlineSvc){
+      restrict: 'E',
+      scope: {
+        question: '=' // inherit from parent
+      },
+      templateUrl: '/views/question_preview.html',
+      controller: function($scope,$http,$timeout,questionTimelineSvc){
 
-          console.log('Inside the controller of the question preview directive.');
-          /*
-          $scope.$watch(questionOutlineSvc.questionPreviewList, function(){
+        $scope.removeQuestion = function(index){
+          questionTimelineSvc.questionPreviewList.splice(index,1);
+        };
 
-          }*/
-
-        }
-
+      }
     }
 });

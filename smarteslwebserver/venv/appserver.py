@@ -5,7 +5,8 @@ from model import DBAccessor
 app = Flask(__name__)
 with app.app_context():
     dba = DBAccessor()
-CORS(app, resources=r'/question/*', allow_headers='Content-Type')
+
+CORS(app, resources=r'/*', allow_headers='Content-Type')
 
 
 # use http://flask.pocoo.org/docs/0.10/appcontext/ to initialize stuff on the server
@@ -51,9 +52,16 @@ def submitAnswer():
 @app.route('/question/submit_question', methods=['POST'])
 def submitQuestion():
     question = json.loads(request.data.decode())
-    dba.addQuestion(question)
+    questionId = dba.addQuestion(question)
 
+    return jsonify( { 'questionId': questionId } )
+
+@app.route('/instructor/submit_timeline', methods=['POST'])
+def submitTimeline():
+    timeline = json.loads(request.data.decode())
+    print timeline
     return jsonify({'oh':'jes'})
+
 
 if __name__ == '__main__':
 
