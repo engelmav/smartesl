@@ -1,16 +1,14 @@
 from flask import Flask, jsonify, json, request
-from flask.ext.cors import CORS
+from flask.ext.cors import CORS, cross_origin
+
 from model import DBAccessor
 
 app = Flask(__name__)
+
 with app.app_context():
     dba = DBAccessor()
 
 CORS(app, resources=r'/*', allow_headers='Content-Type')
-
-
-# use http://flask.pocoo.org/docs/0.10/appcontext/ to initialize stuff on the server
-# if needed
 
 def getCurrentQuestion():
     question = {}
@@ -21,7 +19,10 @@ def getCurrentQuestion():
     question['metadata'] = ['passive voice', 'extra syllabic ending']
     return question
 
-
+@app.route('/login', methods=['POST'])
+def login():
+# the below is a mockup object of a user with role 'admin'
+    return jsonify( { 'id':12345, 'user': { 'id': 'joe', 'role':'admin'} } )
 
 @app.route('/')
 def root():

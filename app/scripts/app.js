@@ -20,6 +20,10 @@ angular
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
+        templateUrl: 'views/login_form.html',
+        controller: 'LoginController'
+      })
+      .when('/answer_question', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
@@ -31,9 +35,12 @@ angular
         templateUrl: 'views/create_question_timeline.html',
         controller: 'QuestionTimelineCtrl'
       })
+      .when('/question_promptor', {
+        templateUrl: 'views/question_promptor.html',
+        controller: 'QuestionPromptorCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
   })
-  .value('appserver', 'http://127.0.0.1:5000')
-  .factory('modelService', function(){});
+  .constant('appserver', 'http://127.0.0.1:5000');

@@ -22,11 +22,20 @@
 
     <!-- Add your site or application content here -->
     <div class="container" ng-controller="MainCtrl">
+      <div ng-if="currentUser">Welcome, {{ currentUser.id }}</div>
+      <div ng-if="isAuthorized(userRoles.admin)">You're admin.</div>
+      <div ng-switch on="currentUser.role">
+        <div ng-switch-when="userRoles.admin">You're admin.</div>
+        <div ng-switch-when="userRoles.editor">You're editor.</div>
+      </div>
+      <p>{{user}}</p>
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li ng-click="changeClass()" ng-class="{ 'text-danger': wrong, bubble: insane }"><a ng-href="#">Answer Question</a></li>
-          <li ng-click="changeClass()" ng-class='isActive'><a ng-href="#/create_question">Create Question</a></li>
-          <li ng-click="changeClass()" ng-class='isActive'><a ng-href="#/create_question_set">Create Question Timeline</a></li>
+          <li><a ng-href="#/">Login</a></li>
+          <li><a ng-href="#/answer_question">Answer Question</a></li>
+          <li><a ng-href="#/create_question">Create Question</a></li>
+          <li><a ng-href="#/create_question_set">Create Question Timeline</a></li>
+          <li><a ng-href="#/question_promptor">Question Promptor</a></li>
         </ul>
         <h3 class="text-muted">smartesl</h3>
       </div>
@@ -83,6 +92,8 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/services/authSvc.js"></script>
+        <script src="scripts/controllers/loginCtrl.js"></script>
         <script src="scripts/services/newQuestionPanelSvc.js"></script>
         <script src="scripts/services/questionTimelineSvc.js"></script>
         <script src="scripts/directives/questionDirective.js"></script>
@@ -90,6 +101,8 @@
         <script src="scripts/directives/createQuestionDirective.js"></script>
         <script src="scripts/controllers/createQuestionCtrl.js"></script>
         <script src="scripts/controllers/questionTimelineCtrl.js"></script>
+        <script src="scripts/controllers/questionPromptorCtrl.js"></script>
+        
         <script src="scripts/controllers/main.js"></script>
         <!-- endbuild -->
 </body>
