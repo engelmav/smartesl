@@ -11,12 +11,15 @@
 <div class="container-fluid">
   <div class="row">
     <h4>Questions entered in your Timeline:</h4>
-      <button type="btn btn-default" ng-click="addQuestion()">Add Existing...</button>  
+      <button type="btn btn-default" ng-click="addExistingQuestion()">Add Existing...</button>  
       <button type="btn btn-default" ng-click="createNewQuestion()">Create New...</button>    
       <button type="btn btn-default">Delete Selected</button>
       <!-- http://plnkr.co/edit/eZTtRVTPb7k9kgS8woKh?p=preview -->
       <div class="row" ng-show="showNewQuestion">
         <newquestion></newquestion>
+      </div>
+      <div ng-class="row" ng-show="showSearchPanel">
+        <questionsearch></questionsearch>
       </div>
       <br /><br />
   </div>

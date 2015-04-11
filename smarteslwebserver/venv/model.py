@@ -3,10 +3,24 @@ import psycopg2, json
 DB_CXN_STR = "dbname=smartesl user=appuser password=a0kroger host=localhost port=15432"
 
 class DBAccessor:
+    # select document from (select to_tsvector(q.body) || ' ' || to_tsvector(string_agg(distinct c.choice_text, ' | ')) || ' ' || to_tsvector(string_agg(distinct m.tag_name, ' | ')) as document from questions q join choices c on q.question_id = c.question_id join metatags m on m.question_id = q.question_id group by q.question_id) as doc where doc.document @@ to_tsquery('preterit');
 
     def __init__(self):
         self.conn = psycopg2.connect(DB_CXN_STR)
         self.cur = self.conn.cursor()
+
+    def getUserData(self,username):
+        print "searching for " + username
+        self.cur.execute("""
+           SELECT firstname, lastname, role from users
+           WHERE username = %s;""",
+           (username,))
+        results = self.cur.fetchall()
+        resultLength = len(results)
+        if resultLength == 1:
+            return [ results[0][0], results[0][1], results[0][2] ]
+        else:
+            return 'invalid user'
 
     def getQuestionById(self,id):
         # select q.body, c.choice_text from questions q left join choices c on q.question_id = c.question_id;
@@ -42,10 +56,8 @@ class DBAccessor:
         lastQuestionId = self.cur.fetchone()[0]
         print "Last question ID: " + str(lastQuestionId)
         self.conn.commit()
-        return lastQuestionId
 
         choices = question_data['choices']
-
 
         for choice in choices:
             self.cur.execute("""
@@ -61,8 +73,25 @@ class DBAccessor:
                 values ( %s, %s );""",
                 (metatag, lastQuestionId))
         self.conn.commit()
-
-
+        return lastQuestionId
+    def searchQuestions(self,searchPhrase):
+        searchSql = """
+            select document from (
+                select to_tsvector(q.body) || ' ' || 
+                to_tsvector(string_agg(distinct c.choice_text, ' | ')) || ' ' || 
+                to_tsvector(string_agg(distinct m.tag_name, ' | ')) as document 
+                from questions q 
+                join choices c on q.question_id = c.question_id 
+                join metatags m on m.question_id = q.question_id 
+                group by q.question_id) as doc
+            where doc.document @@ to_tsquery(%s);
+            """
+        self.cur.execute(searchSql,(searchPhrase,))
+        results = self.cur.fetchall()
+        return results
+        
+    def addTimeline(self, questionIdList):
+        print quesitonIdList
 
 if __name__ == '__main__':
 

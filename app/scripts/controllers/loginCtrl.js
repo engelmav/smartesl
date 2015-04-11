@@ -7,7 +7,9 @@ angular.module('smarteslApp')
       password: ''
     };
     $scope.login = function (credentials) {
+      console.log('LoginController.login called');
       AuthService.login(credentials).then(function (user) {
+        console.log('User object in then method: ' + JSON.stringify(user));
         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         $scope.setCurrentUser(user);
       }, function () {

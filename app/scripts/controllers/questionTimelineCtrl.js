@@ -6,6 +6,7 @@ angular.module('smarteslApp')
   	//$scope.showNewQuestion = false;
     // expecting this to act like a reference
     $scope.showNewQuestion = newQuestionPanelSvc.showNewQuestion;
+    $scope.enableSearchPanel = true;
 
   	$scope.questionSvc = newQuestionPanelSvc;
 
@@ -39,16 +40,17 @@ angular.module('smarteslApp')
       return questionIds;
     };
     
-
+    $scope.addExistingQuestion = function(){
+      console.log('Toggling questionsearch component');
+      $scope.showSearchPanel = true;
+    };
 
     $scope.submitTimeline = function(){
       var questionIds = collectIds(questionTimelineSvc.questionPreviewList);
       $http.post(appserver + '/instructor/submit_timeline', questionIds ).
         success(function(results){
           console.log('submitTimeline success response: ' + JSON.stringify(results));
-        });
-    }
-
-
- 
+      });
+    };
+     
   });

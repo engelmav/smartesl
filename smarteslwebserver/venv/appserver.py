@@ -21,8 +21,15 @@ def getCurrentQuestion():
 
 @app.route('/login', methods=['POST'])
 def login():
+    data = json.loads(request.data.decode())
+    print data
 # the below is a mockup object of a user with role 'admin'
-    return jsonify( { 'id':12345, 'user': { 'id': 'joe', 'role':'admin'} } )
+    username = data['username']
+    firstname, lastname, role = dba.getUserData(username)
+    # TODO: Id to be sessionId
+    return jsonify( { 'sessionId':12345, 'username': username, 'firstname': firstname, 
+        'lastname': lastname, 'role': role  } )
+    
 
 @app.route('/')
 def root():
@@ -34,8 +41,6 @@ def root():
 
 
 @app.route('/question/get_question', methods=['GET'])
-# https://github.com/corydolphin/flask-cors/blob/master/examples/view_based_example.py
-#@cross_origin()
 def getQuestion():
     # student client polls for currently set question
     # mock sending json question.
@@ -46,7 +51,7 @@ def getQuestion():
 @app.route('/question/submit_answer', methods=['POST'])
 def submitAnswer():
     data = json.loads(request.data.decode())
-    print data
+    print data['username']
     # student answers question
     return jsonify({'oh':'jes'})
 
@@ -63,6 +68,17 @@ def submitTimeline():
     print timeline
     return jsonify({'oh':'jes'})
 
+@app.route('/search/timelines', methods=['POST'])
+def searchTimeline():
+    return jsonify({'results':['r1','r2']})
+
+@app.route('/search/questions', methods=['POST'])
+def searchQuestions():
+    searchPhrase = json.loads(request.data.decode())
+    print searchPhrase
+    results = dba.searchQuestions(searchPhrase['phrase'])
+    print results
+    return jsonify({'results':['r1','r2']})
 
 if __name__ == '__main__':
 
