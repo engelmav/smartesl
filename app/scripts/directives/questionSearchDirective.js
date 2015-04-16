@@ -16,6 +16,7 @@ angular.module('smarteslApp')
           $http.post(appserver + '/search/questions', { 'phrase': searchPhrase }).
             success(function(results){
               console.log('search results: ' + JSON.stringify(results));
+              $scope.searchResults = results.results;
           });
         };
 

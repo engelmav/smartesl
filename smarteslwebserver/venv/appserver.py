@@ -78,7 +78,7 @@ def searchQuestions():
     print searchPhrase
     results = dba.searchQuestions(searchPhrase['phrase'])
     print results
-    return jsonify({'results':['r1','r2']})
+    return jsonify({'results':results})
 
 if __name__ == '__main__':
 

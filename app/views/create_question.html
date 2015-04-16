@@ -1,37 +1,28 @@
 
-<div class="panel panel-default">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Create a question</h3>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-            	<h4>Body</h4>
-            	<textarea type="text" class="form-control" ng-model="questionBody" />
-            	<br />
+<h4>Body</h4>
+<textarea type="text" class="form-control" ng-model="questionBody" />
+<br />
 
-            	<h4>Choices</h4>
-                <div ng-repeat="input in inputs">
-                    <input type="text" ng-model="input.field" />
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="input.isCorrect">Correct answer
-                    </label>
-                    <button ng-click="removeInput($index)">Remove</button>
-                </div>
-                <button ng-click="addInput()">Add a Choice</button>
-                <br />
-             
-            	<h4>Metatags</h4>
-                <div ng-repeat="metainput in metainputs">
-                    <input type="text" ng-model="metainput.field" />
-                    <button ng-click="removeMetaInput($index)">Remove</button>
-                </div>
-                <button ng-click="addMetaInput()">Add a Metatag</button>
-                <br /><br />
-                <button type="button" class="btn btn-primary" ng-click="submitQuestion(questionBody,inputs,metainputs)">{{submitButtonText}}</button>
-
-            </div>
-        </div>
-    </div>
+<h4>Choices</h4>
+<div ng-repeat="input in inputs">
+    <input type="text" ng-model="input.field" />
+    <label class="checkbox-inline">
+      <input type="checkbox" id="inlineCheckbox1" value="option1" ng-model="input.isCorrect">Correct answer
+    </label>
+    <button ng-click="removeInput($index)">Remove</button>
 </div>
+<button ng-click="addInput()">Add a Choice</button>
+<br />
+
+<h4>Metatags</h4>
+<div ng-repeat="metainput in metainputs">
+    <input type="text" ng-model="metainput.field" />
+    <button ng-click="removeMetaInput($index)">Remove</button>
+</div>
+<button ng-click="addMetaInput()">Add a Metatag</button>
+<br /><br />
+<button type="button" class="btn btn-primary" ng-click="submitQuestion(questionBody,inputs,metainputs)">{{submitButtonText}}</button>
+
+
+
 

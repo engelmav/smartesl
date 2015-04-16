@@ -17,7 +17,7 @@ angular.module('smarteslApp')
               $scope.questionSvc = newQuestionPanelSvc;
               
               $scope.$watch('questionSvc.showNewQuestion', function(){
-                if ($scope.questionSvc.showNewQuestion == true){ // opening in NewQuestionTimeline
+                if ($scope.questionSvc.showNewQuestion.visible == true){ // opening in NewQuestionTimeline
                   $scope.submitButtonText = 'Save to timeline!';
                 } else {
                   $scope.submitButtonText = 'Save!';
@@ -46,6 +46,7 @@ angular.module('smarteslApp')
                   $scope.metainputs.splice(index,1);
               };
               $scope.submitQuestion = function(questionBody,choices,metatags){
+
                 console.log('choices data: ' + JSON.stringify(choices))
                 var choicesArr = [];
                 for (var i=0; i<choices.length; i++){
@@ -74,7 +75,6 @@ angular.module('smarteslApp')
                     if ($scope.questionSvc.showNewQuestion == true){
                       question['questionId'] = results['questionId'];
                       console.log('Question ID added to question object: ' + JSON.stringify(question));
-                      $scope.questionSvc.showNewQuestion == false;
                     }
 
                 });
@@ -82,6 +82,9 @@ angular.module('smarteslApp')
                 console.log('Storing in service for question timeline preview');
 
                 questionTimelineSvc.addQuestion(question);
+
+
+
               };
             },
             controllerAs: 'CreateQuestionCtrl'

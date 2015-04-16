@@ -76,20 +76,25 @@ class DBAccessor:
         return lastQuestionId
     def searchQuestions(self,searchPhrase):
         searchSql = """
-            select document from (
+            select body from (
                 select to_tsvector(q.body) || ' ' || 
                 to_tsvector(string_agg(distinct c.choice_text, ' | ')) || ' ' || 
-                to_tsvector(string_agg(distinct m.tag_name, ' | ')) as document 
+                to_tsvector(string_agg(distinct m.tag_name, ' | ')) as document, q.body as body
                 from questions q 
                 join choices c on q.question_id = c.question_id 
                 join metatags m on m.question_id = q.question_id 
                 group by q.question_id) as doc
             where doc.document @@ to_tsquery(%s);
             """
-        self.cur.execute(searchSql,(searchPhrase,))
-        results = self.cur.fetchall()
+        results = ''
+        try:
+            self.cur.execute(searchSql,(searchPhrase,))
+            results = self.cur.fetchall()
+        except psycopg2.Error as e:
+            self.conn.rollback()
+            print e.pgcode
         return results
-        
+
     def addTimeline(self, questionIdList):
         print quesitonIdList
 

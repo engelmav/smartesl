@@ -1,36 +1,28 @@
-<div class="row">
+
 <h3>Create Question Timeline</h3>
 <p>A question timeline is played by you throughout your class.  Use the Add Question button to add a question that you or someone else has created.</p>
-<!-- Please refactor me, what is this I don't even -->
-<!-- Reference: http://getbootstrap.com/css/#grid-options -->
-</div>
-<div class="row">
-  <h4>Name your Question Timeline:</h4>
-   <input type="text" class="form-control" ng-model="questionSetName" />
 
-<div class="container-fluid">
-  <div class="row">
-    <h4>Questions entered in your Timeline:</h4>
-      <button type="btn btn-default" ng-click="addExistingQuestion()">Add Existing...</button>  
-      <button type="btn btn-default" ng-click="createNewQuestion()">Create New...</button>    
-      <button type="btn btn-default">Delete Selected</button>
-      <!-- http://plnkr.co/edit/eZTtRVTPb7k9kgS8woKh?p=preview -->
-      <div class="row" ng-show="showNewQuestion">
-        <newquestion></newquestion>
-      </div>
-      <div ng-class="row" ng-show="showSearchPanel">
-        <questionsearch></questionsearch>
-      </div>
-      <br /><br />
-  </div>
-  <!-- That question=question allows the the directive to pick up the question data -->
-    <!-- these things need to be sortable http://a5hik.github.io/ng-sortable/#/ -->
-  <questionpreview ng-repeat="question in questionsInTimeline" question="question" index="$index"></questionpreview>
+<h4>Name your Question Timeline:</h4>
+<input type="text" class="form-control" ng-model="questionSetName" />
 
-  <br/>
-  <div class="row">
-      <button type="button" class="btn-primary" ng-click="submitTimeline()">Save Timeline</button>
-      <br />
-  </div><!--endrow-->
 
-</div> <!--endof container-->
+<h4>Questions entered in your Timeline:</h4>
+<button type="btn btn-default" ng-click="addExistingQuestion()">Add Existing...</button>  
+<button type="btn btn-default" ng-click="createNewQuestion()">Create New...</button>    
+<button type="btn btn-default">Delete Selected</button>
+<!-- http://plnkr.co/edit/eZTtRVTPb7k9kgS8woKh?p=preview -->
+
+<newquestion ng-show="showNewQuestion.visible == true"></newquestion>
+
+<questionsearch ng-show="showSearchPanel == true"></questionsearch>
+
+<br /><br />
+
+<!-- That question=question allows the the directive to pick up the question data -->
+  <!-- these things need to be sortable http://a5hik.github.io/ng-sortable/#/ -->
+<questionpreview ng-repeat="question in questionsInTimeline" question="question" index="$index"></questionpreview>
+
+<br/>
+
+<button type="button" class="btn-primary" ng-click="submitTimeline()">Save Timeline</button>
+<br />
