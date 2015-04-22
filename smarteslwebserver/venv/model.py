@@ -12,13 +12,15 @@ class DBAccessor:
     def getUserData(self,username):
         print "searching for " + username
         self.cur.execute("""
-           SELECT firstname, lastname, role from users
+           SELECT userName, firstname, lastname, role from users
            WHERE username = %s;""",
            (username,))
         results = self.cur.fetchall()
+        print results[0]
+        userName, firstName, lastName, role = results[0]
         resultLength = len(results)
         if resultLength == 1:
-            return [ results[0][0], results[0][1], results[0][2] ]
+            return [ userName, firstName, lastName, role ]
         else:
             return 'invalid user'
 
@@ -76,10 +78,13 @@ class DBAccessor:
         return lastQuestionId
     def searchQuestions(self,searchPhrase):
         searchSql = """
-            select body from (
-                select to_tsvector(q.body) || ' ' || 
-                to_tsvector(string_agg(distinct c.choice_text, ' | ')) || ' ' || 
-                to_tsvector(string_agg(distinct m.tag_name, ' | ')) as document, q.body as body
+            select qid,body from (
+                select
+                  to_tsvector(q.body) || ' ' || 
+                  to_tsvector(string_agg(distinct c.choice_text, ' | ')) || ' ' || 
+                  to_tsvector(string_agg(distinct m.tag_name, ' | ')) as document,
+                  q.question_id as qid,
+                  q.body as body
                 from questions q 
                 join choices c on q.question_id = c.question_id 
                 join metatags m on m.question_id = q.question_id 
@@ -95,7 +100,11 @@ class DBAccessor:
             print e.pgcode
         return results
 
-    def addTimeline(self, questionIdList):
+    def addTimeline(self, timelineData):
+        qids =     timelineData['questionIds']
+        tlName =   timelineData['timelineName']
+        userName = timelineData['userId']
+        # {u'questionIds': [272], u'timelineName': u'', u'userId': u'vengelmann'}
         print quesitonIdList
 
 if __name__ == '__main__':

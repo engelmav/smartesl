@@ -6,27 +6,28 @@ angular.module('smarteslApp')
         return {
             restrict: 'E',
             scope: {
-                progress: '=newquestion'
+                someVar: '='
             },
             templateUrl: '/views/create_question.html',
             
-            controller: function($scope,$http,$timeout,appserver,newQuestionPanelSvc,questionTimelineSvc){
+            controller: function($scope,$http,$timeout,appserver,Session,newQuestionPanelSvc,questionTimelineSvc){
 
-              $scope.submitButtonText = 'test';
-
+              console.log(JSON.stringify(newQuestionPanelSvc))
               $scope.questionSvc = newQuestionPanelSvc;
+
+              $scope.submitQuestionWarnings = [];
               
               $scope.$watch('questionSvc.showNewQuestion', function(){
-                if ($scope.questionSvc.showNewQuestion.visible == true){ // opening in NewQuestionTimeline
+                if ($scope.questionSvc.showNewQuestion == true){ // opening in NewQuestionTimeline
                   $scope.submitButtonText = 'Save to timeline!';
                 } else {
                   $scope.submitButtonText = 'Save!';
                 }
               });
 
-              $scope.questionBody = 'Twitter was ______ in 2006.';
+              $scope.questionBody = '';
 
-              $scope.inputs = [{  field:'choice text', isCorrect:'false'  }];
+              $scope.inputs = [{  field:'', isCorrect:'false'  }];
 
               $scope.addInput = function(){
                   $scope.inputs.push({field:'', value:''});
@@ -36,7 +37,7 @@ angular.module('smarteslApp')
                   $scope.inputs.splice(index,1);
               };
 
-              $scope.metainputs = [{field:'metatag'}];
+              $scope.metainputs = [{field:''}];
 
               $scope.addMetaInput = function(){
                   $scope.metainputs.push({field:'', value:''});
@@ -46,6 +47,23 @@ angular.module('smarteslApp')
                   $scope.metainputs.splice(index,1);
               };
               $scope.submitQuestion = function(questionBody,choices,metatags){
+
+                if(!Session.id || 0 === Session.id.length){
+                  $scope.submitQuestionWarnings.push('You must be logged in to submit a question.');
+                  return;
+                }
+
+                if (questionBody.length == 0){
+                  $scope.submitQuestionWarnings.push('Please enter a question body.');
+                }
+
+                if (choices.length < 2){
+                  $scope.submitQuestionWarnings.push('Please enter at least two choices.');
+                }
+
+                if ($scope.submitQuestionWarnings.length > 0){
+                  return;
+                }
 
                 console.log('choices data: ' + JSON.stringify(choices))
                 var choicesArr = [];
@@ -70,18 +88,20 @@ angular.module('smarteslApp')
                 console.log('Submitting the following question: ' + JSON.stringify(question));
                 $http.post(appserver + '/question/submit_question', question ).
                   success(function(results){
-                    console.log('submitAnswer success response: ' + JSON.stringify(results));
+                    console.log('submitQuestion success response: ' + JSON.stringify(results));
                     // you will need the ID for questions that are inserted into a timeline.
-                    if ($scope.questionSvc.showNewQuestion == true){
+                    //if ($scope.questionSvc.showNewQuestion == true){
                       question['questionId'] = results['questionId'];
                       console.log('Question ID added to question object: ' + JSON.stringify(question));
-                    }
+                    //}
 
                 });
 
                 console.log('Storing in service for question timeline preview');
+                $scope.$emit('closeQuestionPanel');
 
                 questionTimelineSvc.addQuestion(question);
+
 
 
 

@@ -9,7 +9,7 @@ function NewQuestionSvc(appserver,$http){
 
 	this.questionData = {}
 
-	this.showNewQuestion = {'visible':false};
+	this.showNewQuestion = false;
 	this.fromOutline = false;
 
 }

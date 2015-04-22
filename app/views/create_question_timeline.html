@@ -3,16 +3,16 @@
 <p>A question timeline is played by you throughout your class.  Use the Add Question button to add a question that you or someone else has created.</p>
 
 <h4>Name your Question Timeline:</h4>
-<input type="text" class="form-control" ng-model="questionSetName" />
-
+<input type="text" class="form-control" ng-model="timelineName" placeholder="Enter a name for your timeline."/>
 
 <h4>Questions entered in your Timeline:</h4>
-<button type="btn btn-default" ng-click="addExistingQuestion()">Add Existing...</button>  
-<button type="btn btn-default" ng-click="createNewQuestion()">Create New...</button>    
-<button type="btn btn-default">Delete Selected</button>
+<button type="button" class="btn btn-default btn-sm" ng-click="addExistingQuestion()">Add Existing...</button>  
+<button type="button" class="btn btn-default btn-sm" ng-click="toggleNewQuestionPanel()">Create New...</button> 
+<button type="button" class="btn btn-default btn-sm">Delete Selected</button>
+<button type="button" class="btn btn-default btn-sm" ng-click="submitTimeline()">Save Timeline</button>
 <!-- http://plnkr.co/edit/eZTtRVTPb7k9kgS8woKh?p=preview -->
 
-<newquestion ng-show="showNewQuestion.visible == true"></newquestion>
+<newquestion ng-show="questionSvc.showNewQuestion == true"></newquestion>
 
 <questionsearch ng-show="showSearchPanel == true"></questionsearch>
 
@@ -24,5 +24,6 @@
 
 <br/>
 
-<button type="button" class="btn-primary" ng-click="submitTimeline()">Save Timeline</button>
+<button type="button" class="btn btn-default btn-sm" ng-click="submitTimeline()">Save Timeline</button>
+{{submitWarning}}
 <br />

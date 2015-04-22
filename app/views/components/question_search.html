@@ -1,3 +1,7 @@
+<br />
+Search for questions using '&' for AND, '|' for OR, and '!' for not.
+<br />
+<b>Example:</b> "passive & (preterit | progressive)"
 <form style="position:relative;" ng-submit="search()">
 	<input type="search" placeholder="Search for existing questions" ng-model="searchPhrase" ng-change="searchQuestions(searchPhrase)">
 	<input type="submit" value="Search">
@@ -5,7 +9,8 @@
 <table>	
 	<tbody ng-repeat="result in searchResults">
 		<tr>
-			<td>{{result}}</td>
+			<td><button type="button" class="btn btn-default btn-xs" ng-click="addQuestionFromSearch($index)">Add</button>{{result[1]}}</td>
 		</tr>
 	</tbody>
 </table>
+</div>

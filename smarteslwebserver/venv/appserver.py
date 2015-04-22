@@ -25,10 +25,10 @@ def login():
     print data
 # the below is a mockup object of a user with role 'admin'
     username = data['username']
-    firstname, lastname, role = dba.getUserData(username)
+    userName, firstName, lastName, role = dba.getUserData(username)
     # TODO: Id to be sessionId
-    return jsonify( { 'sessionId':12345, 'username': username, 'firstname': firstname, 
-        'lastname': lastname, 'role': role  } )
+    return jsonify( { 'sessionId':1234, 'username': userName, 'firstname': firstName, 
+        'lastname': lastName, 'role': role  } )
     
 
 @app.route('/')
