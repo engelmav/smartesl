@@ -53,7 +53,7 @@ class DBAccessor:
 
         self.cur.execute("""
            insert into questions ( body )
-           values ( %s ) RETURNING question_id;""",
+           values ( %s ) returning question_id;""",
            (body,))
         lastQuestionId = self.cur.fetchone()[0]
         print "Last question ID: " + str(lastQuestionId)
@@ -101,11 +101,35 @@ class DBAccessor:
         return results
 
     def addTimeline(self, timelineData):
-        qids =     timelineData['questionIds']
+        qIds =     timelineData['questionIds']
         tlName =   timelineData['timelineName']
         userName = timelineData['userId']
-        # {u'questionIds': [272], u'timelineName': u'', u'userId': u'vengelmann'}
-        print quesitonIdList
+        sqlInsertQuestionSet = """
+            insert into question_sets
+                (creator_id, set_name,vote_score)
+                values ((select user_id from users where username = %s), %s, 0)
+            returning set_id;"""
+        self.cur.execute(sqlInsertQuestionSet,(userName, tlName))
+        lastSetId = self.cur.fetchone()[0]
+        print "Last setID: " + str(lastSetId)
+        self.conn.commit()
+
+        sqlInsertQs = """
+            insert into question_set_list
+                (set_id, question_id)
+                values (%s, %s)"""
+        for q in qIds:
+            self.cur.execute(sqlInsertQs,(lastSetId, q))
+        self.conn.commit()
+
+    def getInstructorClasses(self,instructorId):
+        sqlClassList = """
+            select class_name from classes where class_id in 
+                (select class_id from instructor_classes where instructor_id = 
+                    (select user_id from users where username = %s))"""
+
+        self.cur.execute(sqlClassList,(instructorId,))
+        return self.cur.fetchall()
 
 if __name__ == '__main__':
 

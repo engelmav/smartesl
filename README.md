@@ -63,4 +63,9 @@ grant all privileges on SEQUENCE instructors_instructor_id_seq to appuser;
 $ . venv/bin/activate
 $ python appserver.py
 
+# Definitions
+## Class
+A class is a group of sessions over time. A class has many sessions. A class has a schedule.
 
+## Session
+A session has students in it. A session has an instructor.

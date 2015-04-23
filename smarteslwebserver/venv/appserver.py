@@ -64,8 +64,9 @@ def submitQuestion():
 
 @app.route('/instructor/submit_timeline', methods=['POST'])
 def submitTimeline():
-    timeline = json.loads(request.data.decode())
-    print timeline
+    timelineData = json.loads(request.data.decode())
+    print timelineData
+    dba.addTimeline(timelineData)
     return jsonify({'oh':'jes'})
 
 @app.route('/search/timelines', methods=['POST'])
@@ -79,6 +80,13 @@ def searchQuestions():
     results = dba.searchQuestions(searchPhrase['phrase'])
     print results
     return jsonify({'results':results})
+
+@app.route('/instructor/get_classes', methods=['POST'])
+def getInstructorClasses():
+    data = json.loads(request.data.decode())
+    instructorId = data['instructorId']
+    instructor_classes = dba.getInstructorClasses(instructorId)
+    return jsonify({'classes':instructor_classes})
 
 if __name__ == '__main__':
 

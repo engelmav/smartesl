@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('smarteslApp')
-  .controller('QuestionPromptorCtrl', function (appserver,$scope,$http) {
+  .controller('QuestionPromptorCtrl', function (appserver,Session,$scope,$http) {
 
-  	// dame vida!
+  	$scope.instructorClasses = []
+	$http.post(appserver + '/instructor/get_classes', { 'instructorId': Session.userId }).
+		success(function(results){
+		console.log('Loading instructor classes: ' + JSON.stringify(results));
+		$scope.instructorClasses = results['classes'];
+	});
   });
