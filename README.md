@@ -69,3 +69,5 @@ A class is a group of sessions over time. A class has many sessions. A class has
 
 ## Session
 A session has students in it. A session has an instructor.
+
+

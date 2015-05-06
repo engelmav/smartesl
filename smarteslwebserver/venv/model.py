@@ -3,7 +3,6 @@ import psycopg2, json
 DB_CXN_STR = "dbname=smartesl user=appuser password=a0kroger host=localhost port=15432"
 
 class DBAccessor:
-    # select document from (select to_tsvector(q.body) || ' ' || to_tsvector(string_agg(distinct c.choice_text, ' | ')) || ' ' || to_tsvector(string_agg(distinct m.tag_name, ' | ')) as document from questions q join choices c on q.question_id = c.question_id join metatags m on m.question_id = q.question_id group by q.question_id) as doc where doc.document @@ to_tsquery('preterit');
 
     def __init__(self):
         self.conn = psycopg2.connect(DB_CXN_STR)
@@ -80,14 +79,14 @@ class DBAccessor:
         searchSql = """
             select qid,body from (
                 select
-                  to_tsvector(q.body) || ' ' || 
-                  to_tsvector(string_agg(distinct c.choice_text, ' | ')) || ' ' || 
+                  to_tsvector(q.body) || ' ' ||
+                  to_tsvector(string_agg(distinct c.choice_text, ' | ')) || ' ' ||
                   to_tsvector(string_agg(distinct m.tag_name, ' | ')) as document,
                   q.question_id as qid,
                   q.body as body
-                from questions q 
-                join choices c on q.question_id = c.question_id 
-                join metatags m on m.question_id = q.question_id 
+                from questions q
+                join choices c on q.question_id = c.question_id
+                join metatags m on m.question_id = q.question_id
                 group by q.question_id) as doc
             where doc.document @@ to_tsquery(%s);
             """
@@ -124,16 +123,20 @@ class DBAccessor:
 
     def getInstructorClasses(self,instructorId):
         sqlClassList = """
-            select class_name from classes where class_id in 
-                (select class_id from instructor_classes where instructor_id = 
+            select class_name from classes where class_id in
+                (select class_id from instructor_classes where instructor_id =
                     (select user_id from users where username = %s))"""
 
         self.cur.execute(sqlClassList,(instructorId,))
         return self.cur.fetchall()
+
+    def broadcastQuestion(self,questionId,classId):
+        #sqlSetCurrQuestion = """
+
+        pass
 
 if __name__ == '__main__':
 
     dba = DBAccessor()
     dba.addStudent('SomeStudent','George','somname@host.com','32 43 22222')
     # http://initd.org/psycopg/docs/usage.html
-

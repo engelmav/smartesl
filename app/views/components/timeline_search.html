@@ -1,0 +1,16 @@
+<br />
+Search for timelines using '&' for AND, '|' for OR, and '!' for not.
+<br />
+<b>Example:</b> "passives | food & drink"
+<form style="position:relative;" ng-submit="search()">
+	<input type="search" placeholder="Search for existing questions" ng-model="searchPhrase" ng-change="searchTimelines(searchPhrase)">
+	<input type="submit" value="Search">
+</form>
+<table>
+	<tbody ng-repeat="result in searchResults">
+		<tr>
+			<td><button type="button" class="btn btn-default btn-xs" ng-click="addTimelineFromSearch($index)">Add</button>{{result[1]}}</td>
+		</tr>
+	</tbody>
+</table>
+</div>

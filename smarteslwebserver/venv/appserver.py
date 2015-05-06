@@ -1,3 +1,5 @@
+# what is the thing about samurais crafting their own weapons?
+
 from flask import Flask, jsonify, json, request
 from flask.ext.cors import CORS, cross_origin
 
@@ -11,6 +13,9 @@ with app.app_context():
 CORS(app, resources=r'/*', allow_headers='Content-Type')
 
 def getCurrentQuestion():
+# will need the following variables:
+#     userId. Will look up class/session of userId and look up the
+#     current question in the current_questions table
     question = {}
     question['id'] = 1
     question['type'] = 'MultipleChoice'
@@ -27,9 +32,9 @@ def login():
     username = data['username']
     userName, firstName, lastName, role = dba.getUserData(username)
     # TODO: Id to be sessionId
-    return jsonify( { 'sessionId':1234, 'username': userName, 'firstname': firstName, 
+    return jsonify( { 'sessionId':1234, 'username': userName, 'firstname': firstName,
         'lastname': lastName, 'role': role  } )
-    
+
 
 @app.route('/')
 def root():
@@ -70,8 +75,12 @@ def submitTimeline():
     return jsonify({'oh':'jes'})
 
 @app.route('/search/timelines', methods=['POST'])
-def searchTimeline():
-    return jsonify({'results':['r1','r2']})
+def searchTimelines():
+    searchPhrase = json.loads(request.data.decode())
+    print searchPhrase
+    results = dba.searchTimelines(searchPhrase['phrase'])
+    print results
+    return jsonify({'results':results})
 
 @app.route('/search/questions', methods=['POST'])
 def searchQuestions():
@@ -91,4 +100,3 @@ def getInstructorClasses():
 if __name__ == '__main__':
 
     app.run(debug=True)
-

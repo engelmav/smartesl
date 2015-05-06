@@ -9,4 +9,27 @@ angular.module('smarteslApp')
 		console.log('Loading instructor classes: ' + JSON.stringify(results));
 		$scope.instructorClasses = results['classes'];
 	});
-  });
+
+	$scope.searchTimelines = function(){
+		//stuff
+	}
+
+	$scope.useSelectedTimeline = function(){
+		//stuff
+	}
+
+	$scope.nextQuestion = function(){
+		//stuff
+	}
+
+	$scope.prevQuestion = function(){
+		//stuff
+	}
+
+	$scope.broadcastQuestion = function(questionId,classId){
+		$http.post(appserver + '/instructor/broadcast_question', { 'question': [ userId, classId ] }).
+			success(function(results){
+				console.log('Broadcasted question.');
+		});
+	};
+});

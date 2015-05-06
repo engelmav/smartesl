@@ -1,7 +1,10 @@
+<p>Choose a class to broadcast to:</p>
 <select
-    ng-model="instructor.classes"
+    ng-model="instructor.class"
     ng-options="class for class in instructorClasses"></select>
-<p>Look up your timeline:</p>
+{{instructor.class}}
+<p>Choose a timeline to broadcast:</p>
+<timelinesearch></timelinesearch>
 <hr>
 <button class="btn btn-default">Previous</button>
 <button class="btn btn-default">Broadcast!</button>
