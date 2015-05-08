@@ -22,6 +22,7 @@ angular.module('smarteslApp')
 
         $scope.addQuestionFromSearch = function(index){
           console.log('User adding ' + JSON.stringify($scope.searchResults[index][0]));
+          questionTimelineSvc.addQuestion(question);
         };
 
       }

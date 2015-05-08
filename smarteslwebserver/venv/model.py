@@ -101,7 +101,7 @@ class DBAccessor:
 
     def searchTimelines(self,searchPhrase):
         searchSql = """
-            select sid from
+            select sid, document from
                 ( select
                     qs.set_id as sid,
                     to_tsvector(qs.set_name) || ' ' ||

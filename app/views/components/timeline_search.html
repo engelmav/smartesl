@@ -9,7 +9,7 @@ Search for timelines using '&' for AND, '|' for OR, and '!' for not.
 <table>
 	<tbody ng-repeat="result in searchResults">
 		<tr>
-			<td><button type="button" class="btn btn-default btn-xs" ng-click="addTimelineFromSearch($index)">Add</button>{{result[1]}}</td>
+			<td><button type="button" class="btn btn-default btn-xs" ng-click="addTimelineFromSearch($index)">Set as timeline</button>{{result[1]}}</td>
 		</tr>
 	</tbody>
 </table>

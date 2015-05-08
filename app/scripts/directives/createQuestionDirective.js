@@ -9,14 +9,14 @@ angular.module('smarteslApp')
                 someVar: '='
             },
             templateUrl: '/views/create_question.html',
-            
+
             controller: function($scope,$http,$timeout,appserver,Session,newQuestionPanelSvc,questionTimelineSvc){
 
               console.log(JSON.stringify(newQuestionPanelSvc))
               $scope.questionSvc = newQuestionPanelSvc;
 
               $scope.submitQuestionWarnings = [];
-              
+
               $scope.$watch('questionSvc.showNewQuestion', function(){
                 if ($scope.questionSvc.showNewQuestion == true){ // opening in NewQuestionTimeline
                   $scope.submitButtonText = 'Save to timeline!';
@@ -98,13 +98,12 @@ angular.module('smarteslApp')
                 });
 
                 console.log('Storing in service for question timeline preview');
-                $scope.$emit('closeQuestionPanel');
-
+                /*  We are just dropping the question into the timeline list.
+                    The questions are then actually added onto a timeline
+                    when the user presses "Save Timeline in create_question_timeline"
+                 */
                 questionTimelineSvc.addQuestion(question);
-
-
-
-
+                $scope.$emit('closeQuestionPanel');
               };
             },
             controllerAs: 'CreateQuestionCtrl'

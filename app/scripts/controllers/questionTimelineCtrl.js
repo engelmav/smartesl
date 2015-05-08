@@ -42,11 +42,11 @@ angular.module('smarteslApp')
     var collectIds = function(questions){
       var questionIds = [];
       for (var i=0; i<questions.length; i++){
-        questionIds.push(questions[i]['questionId'])
+        questionIds.push(questions[i]['questionId']);
       }
       return questionIds;
     };
-    
+
     $scope.addExistingQuestion = function(){
       console.log('Toggling questionsearch component');
       $scope.showSearchPanel = true;
@@ -72,5 +72,5 @@ angular.module('smarteslApp')
         });
       }
     };
-     
+
   });
