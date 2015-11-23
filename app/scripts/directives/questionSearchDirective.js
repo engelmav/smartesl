@@ -8,7 +8,7 @@ angular.module('smarteslApp')
       scope: {
         searchquestion: '=' // inherit from parent
       },
-      templateUrl: '/views/components/question_search.html',
+      templateUrl: '../views/components/question_search.html',
       controller: function(appserver,$scope,$http,questionTimelineSvc){
 
         $scope.searchQuestions = function(searchPhrase){
@@ -22,7 +22,8 @@ angular.module('smarteslApp')
 
         $scope.addQuestionFromSearch = function(index){
           console.log('User adding ' + JSON.stringify($scope.searchResults[index][0]));
-          questionTimelineSvc.addQuestion(question);
+          var questionId = $scope.searchResults[index][0];
+          questionTimelineSvc.addQuestion(questionId);
         };
 
       }

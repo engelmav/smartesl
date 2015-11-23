@@ -8,7 +8,7 @@ angular.module('smarteslApp')
             scope: {
                 someVar: '='
             },
-            templateUrl: '/views/create_question.html',
+            templateUrl: '../app/views/create_question.html',
 
             controller: function($scope,$http,$timeout,appserver,Session,newQuestionPanelSvc,questionTimelineSvc){
 

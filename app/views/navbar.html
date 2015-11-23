@@ -22,13 +22,14 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-				<li><a ng-href="#/">Login</a></li>
-				<li ng-if="Session.userRole == 'student'"><a ng-href="#/answer_question">Answer Question</a></li>
-				<li ng-if="Session.userRole == 'instructor'"><a ng-href="#/create_question">Create Question</a></li>
-				<li ng-if="Session.userRole == 'instructor'"><a ng-href="#/create_question_set">Create Question Timeline</a></li>
-				<li ng-if="Session.userRole == 'instructor'"><a ng-href="#/question_promptor">Question Promptor</a></li>  
+              <li ng-if="Session.loggedOn == 1"><a ng-href="#/">Logout</a></li>
+              <li ng-if="Session.loggedOn == 0"><a ng-href="""#/">Login</li>
+              <li><a ng-href="#/answer_question">Answer Question</a></li>
+              <li><a ng-href="#/create_question">Create Question</a></li>
+              <li><a ng-href="#/create_question_set">Create Question Timeline</a></li>
+              <li><a ng-href="#/question_promptor">Question Promptor</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
-      <p ng-if="Session.loggedOn">Welcome, {{Session.firstName}}. Your role is {{Session.userRole}}.</p>
+      <p ng-if="Session.loggedOn">Welcome, {{Session.firstName}}. Your role is {{Session.role}}.</p>

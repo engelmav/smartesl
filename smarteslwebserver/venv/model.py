@@ -1,4 +1,5 @@
 import psycopg2, json
+import sql_lib as sql
 
 DB_CXN_STR = "dbname=smartesl user=appuser password=a0kroger host=localhost port=15432"
 
@@ -8,41 +9,21 @@ class DBAccessor:
         self.conn = psycopg2.connect(DB_CXN_STR)
         self.cur = self.conn.cursor()
 
-    def getUserData(self,username):
-        print "searching for " + username
-        self.cur.execute("""
-           SELECT userName, firstname, lastname, role from users
-           WHERE username = %s;""",
-           (username,))
-        results = self.cur.fetchall()
-        print results[0]
-        userName, firstName, lastName, role = results[0]
-        resultLength = len(results)
-        if resultLength == 1:
-            return [ userName, firstName, lastName, role ]
-        else:
-            return 'invalid user'
 
     def getQuestionById(self,id):
-        # select q.body, c.choice_text from questions q left join choices c on q.question_id = c.question_id;
-        q = "select * from questions where id = %"
-        print q
+        print sql_get_question_by_id
         pass
 
     def getStudentListByInstructor(self,instructor):
         pass
 
     def addInstructor(self,firstname,lastname,email,phone):
-        self.cur.execute("""
-            insert into instructors ( firstname, lastname, email, phone_number )
-            values ( %s, %s, %s, %s );""",
+        self.cur.execute(sql.add_instructor,
             (firstname,lastname,email,phone))
         self.conn.commit()
 
     def addStudent(self,firstname,lastname,email,phone):
-        self.cur.execute("""
-            insert into students ( firstname, lastname, email, phone_number )
-            values ( %s, %s, %s, %s );""",
+        self.cur.execute(sql.add_student
             (firstname,lastname,email,phone))
         self.conn.commit()
 
@@ -50,10 +31,7 @@ class DBAccessor:
         print question_data
         body = question_data['body']
 
-        self.cur.execute("""
-           insert into questions ( body )
-           values ( %s ) returning question_id;""",
-           (body,))
+        self.cur.execute( sql.add_question,(body,) )
         lastQuestionId = self.cur.fetchone()[0]
         print "Last question ID: " + str(lastQuestionId)
         self.conn.commit()
@@ -61,38 +39,19 @@ class DBAccessor:
         choices = question_data['choices']
 
         for choice in choices:
-            self.cur.execute("""
-                insert into choices ( question_id, choice_text, iscorrect )
-                values ( %s, %s, %s );""",
+            self.cur.execute(sql.add_choice,
                 (lastQuestionId, choice[0], choice[1]))
         self.conn.commit()
 
         metatags = question_data['metatags']
         for metatag in metatags:
-            self.cur.execute("""
-                insert into metatags ( tag_name, question_id )
-                values ( %s, %s );""",
-                (metatag, lastQuestionId))
+            self.cur.execute( sql.add_metatag, (metatag, lastQuestionId) )
         self.conn.commit()
         return lastQuestionId
     def searchQuestions(self,searchPhrase):
-        searchSql = """
-            select qid,body from (
-                select
-                  to_tsvector(q.body) || ' ' ||
-                  to_tsvector(string_agg(distinct c.choice_text, ' | ')) || ' ' ||
-                  to_tsvector(string_agg(distinct m.tag_name, ' | ')) as document,
-                  q.question_id as qid,
-                  q.body as body
-                from questions q
-                join choices c on q.question_id = c.question_id
-                join metatags m on m.question_id = q.question_id
-                group by q.question_id) as doc
-            where doc.document @@ to_tsquery(%s);
-            """
         results = ''
         try:
-            self.cur.execute(searchSql,(searchPhrase,))
+            self.cur.execute(sql.keyword_question_search,(searchPhrase,))
             results = self.cur.fetchall()
         except psycopg2.Error as e:
             self.conn.rollback()
@@ -100,15 +59,6 @@ class DBAccessor:
         return results
 
     def searchTimelines(self,searchPhrase):
-        searchSql = """
-            select sid, document from
-                ( select
-                    qs.set_id as sid,
-                    to_tsvector(qs.set_name) || ' ' ||
-                    to_tsvector(u.username) as document
-                  from question_sets qs join users u on qs.creator_id = u.user_id) as doc
-            where doc.document @@ to_tsquery(%s);
-            """
         results = ''
         try:
             self.cur.execute(searchSql,(searchPhrase,))
@@ -131,40 +81,35 @@ class DBAccessor:
         qIds =     timelineData['questionIds']
         tlName =   timelineData['timelineName']
         userName = timelineData['userId']
-        sqlInsertQuestionSet = """
-            insert into question_sets
-                (creator_id, set_name,vote_score)
-                values ((select user_id from users where username = %s), %s, 0)
-            returning set_id;"""
-        self.cur.execute(sqlInsertQuestionSet,(userName, tlName))
+        self.cur.execute(sql.insert_timeline_questions,(userName, tlName))
         lastSetId = self.cur.fetchone()[0]
         print "Last setID: " + str(lastSetId)
         self.conn.commit()
-
-        sqlInsertQs = """
-            insert into question_set_list
-                (set_id, question_id)
-                values (%s, %s)"""
         for q in qIds:
-            self.cur.execute(sqlInsertQs,(lastSetId, q))
+            self.cur.execute(sql.insert_question_set_list,(lastSetId, q))
         self.conn.commit()
 
     def getInstructorClasses(self,instructorId):
-        sqlClassList = """
-            select class_name from classes where class_id in
-                (select class_id from instructor_classes where instructor_id =
-                    (select user_id from users where username = %s))"""
-
-        self.cur.execute(sqlClassList,(instructorId,))
+        self.cur.execute(sql.get_instructor_classes,(instructorId,))
         return self.cur.fetchall()
 
     def broadcastQuestion(self,questionId,classId):
-        #sqlSetCurrQuestion = """
-
         pass
+
+    def getQuestionContent(self,questionId):
+        # get the question body and creator
+        self.cur.execute(sql.get_question_content,(questionId,))
+        body, creator = self.cur.fetchone()
+        # get the choies and their iscorrect value
+        self.cur.execute(sql.get_choices_of_question,(questionId,))
+        choices = self.cur.fetchall()
+        # get the metatags...
+        self.cur.execute(sql.get_metatags_of_question,(questionId,))
+        metatags = self.cur.fetchall()
+        # assemble all the things
+        
 
 if __name__ == '__main__':
 
     dba = DBAccessor()
     dba.addStudent('SomeStudent','George','somname@host.com','32 43 22222')
-    # http://initd.org/psycopg/docs/usage.html

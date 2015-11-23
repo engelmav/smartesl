@@ -18,27 +18,27 @@ angular.module('smarteslApp')
   })
   .factory('AuthService', function ($http, Session, appserver) {
     var authService = {};
-   
+
     authService.login = function (credentials) {
       console.log('In the authService.login method.');
       var testReturn = $http
         .post(appserver + '/login', credentials)
         .then(function (res) {
-          var userData = res.data;
-          // { 'sessionId':12345, 'username': username, 'firstname': firstname, 'lastname': lastname, 'role': role  }
-          Session.create(userData.sessionId, userData.username,
-                         userData.firstname, userData.lastname, userData.role);
-          return userData;
+          var userLoginData = res.data;
+          console.log('Login data received from server:');
+          console.log(userLoginData);
+          Session.create(userLoginData);
+          return userLoginData;
         });
       console.log(JSON.stringify(testReturn));
       return testReturn;
 
     };
-   
+
     authService.isAuthenticated = function () {
       return !!Session.userId;
     };
-   
+
     authService.isAuthorized = function (authorizedRoles) {
       console.log('In the authService.isAuthorized method.');
       if (!angular.isArray(authorizedRoles)) {
@@ -49,27 +49,27 @@ angular.module('smarteslApp')
         // if userRole is present and the user is authenticated, then return true.
         authorizedRoles.indexOf(Session.userRole) !== -1);
     };
-   
+
     return authService;
   })
   .service('Session', function ($rootScope) {
 
-    this.loggedOn = false;
+    this.loggedOn = 0;
 
-    this.create = function (sessionId, userId, firstname, lastname, userRole) {
-      console.log('In the Session.create method');
-      this.id = sessionId;
-      this.userId = userId;
-      this.firstName = firstname
-      this.lastname = lastname
-      this.userRole = userRole;
-      this.loggedOn = true;
+    this.create = function (userData) {
+      console.log('In the Session.create method - creating session data using:');
+      this.id = userData['sessionId'];
+      this.userId = userData['userId'];
+      this.firstName = userData['firstName'];
+      this.lastname = userData['lastName'];
+      this.role = userData['role'];
+      this.loggedOn = 1;
     };
     this.destroy = function () {
       console.log('In the Session.destroy method.');
       this.id = null;
       this.userId = null;
-      this.userRole = null;
+      this.userRole = 0;
       this.loggedOn = false;
     };
 

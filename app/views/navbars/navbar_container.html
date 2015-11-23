@@ -1,0 +1,36 @@
+
+<ul class="nav nav-pills pull-right">
+  <li ng-if="Session.loggedOn == false"><a ng-href="#/">Login</a></li>
+  <li ng-if="Session.loggedOn == true"><a ng-href="#/">Logout</a></li>
+  <navbar-student></navbar-student>
+  <navbar-instructor></navbar-instructor>
+
+</ul>
+
+<b>what the fuck</b>
+
+
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">smartesl</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a ng-href="#/">Login</a></li>
+        <li ng-if="Session.userRole == 'student'"><a ng-href="#/answer_question">Answer Question</a></li>
+        <li ng-if="Session.userRole == 'instructor'"><a ng-href="#/create_question">Create Question</a></li>
+        <li ng-if="Session.userRole == 'instructor'"><a ng-href="#/create_question_set">Create Question Timeline</a></li>
+        <li ng-if="Session.userRole == 'instructor'"><a ng-href="#/question_promptor">Question Promptor</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container-fluid -->
+</nav>
+<p ng-if="Session.loggedOn">Welcome, {{Session.firstName}}. Your role is {{Session.role}}.</p>

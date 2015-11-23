@@ -1,0 +1,1 @@
+DB_CXN_STR = "dbname=smartesl user=appuser password=a0kroger host=localhost port=15432"

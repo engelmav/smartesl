@@ -6,8 +6,8 @@
 <input type="text" class="form-control" ng-model="timelineName" placeholder="Enter a name for your timeline."/>
 
 <h4>Questions entered in your Timeline:</h4>
-<button type="button" class="btn btn-default btn-sm" ng-click="addExistingQuestion()">Add Existing...</button>  
-<button type="button" class="btn btn-default btn-sm" ng-click="toggleNewQuestionPanel()">Create New...</button> 
+<button type="button" class="btn btn-default btn-sm" ng-click="addExistingQuestion()">Add Existing...</button>
+<button type="button" class="btn btn-default btn-sm" ng-click="toggleNewQuestionPanel()">Create New...</button>
 <button type="button" class="btn btn-default btn-sm">Delete Selected</button>
 <button type="button" class="btn btn-default btn-sm" ng-click="submitTimeline()">Save Timeline</button>
 <!-- http://plnkr.co/edit/eZTtRVTPb7k9kgS8woKh?p=preview -->
@@ -20,7 +20,7 @@
 
 <!-- That question=question allows the the directive to pick up the question data -->
   <!-- these things need to be sortable http://a5hik.github.io/ng-sortable/#/ -->
-<questionpreview ng-repeat="question in questionsInTimeline" question="question" index="$index"></questionpreview>
+<questionpreview ng-repeat="question in questionsInTimeline track by question.questionId" question="question" index="$index"></questionpreview>
 
 <br/>
 

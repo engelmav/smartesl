@@ -2,7 +2,7 @@
 
 from flask import Flask, jsonify, json, request
 from flask.ext.cors import CORS, cross_origin
-
+from user_login import UserLogin
 from model import DBAccessor
 
 app = Flask(__name__)
@@ -26,14 +26,18 @@ def getCurrentQuestion():
 
 @app.route('/login', methods=['POST'])
 def login():
-    data = json.loads(request.data.decode())
-    print data
-# the below is a mockup object of a user with role 'admin'
-    username = data['username']
-    userName, firstName, lastName, role = dba.getUserData(username)
-    # TODO: Id to be sessionId
-    return jsonify( { 'sessionId':1234, 'username': userName, 'firstname': firstName,
-        'lastname': lastName, 'role': role  } )
+    loginData = json.loads(request.data.decode())
+    print loginData
+    username = loginData['username']
+
+    userLogin = UserLogin()
+    fields = ['userName','firstName', 'role', 'session_id']
+    userJson = userLogin.loginUser(username).to_json(fields)
+
+    print "Response from login.loginUser(username).as_json():"
+    print userJson
+
+    return userJson
 
 
 @app.route('/')
@@ -96,6 +100,14 @@ def getInstructorClasses():
     instructorId = data['instructorId']
     instructor_classes = dba.getInstructorClasses(instructorId)
     return jsonify({'classes':instructor_classes})
+
+# /services/get_question_content
+@app.route('/instructor/get_classes', methods=['POST'])
+def getQuestionContent():
+    data = json.loads(request.data.decode())
+    questionId = data['id']
+    qestionContent = dba.getQuestionContent(questionId)
+    return jsonify({'question' : questionContent})
 
 if __name__ == '__main__':
 
