@@ -19,7 +19,7 @@ class UserLogin(DBAccessor,Jsonable):
         self.cur.execute( sql.get_user_data, (username,) )
         results = self.cur.fetchall()
         self.userName, self.firstName, self.lastName, self.role = results[0]
-        self.groups = _getGroups()
+        self.views = self._getViews()
         resultLength = len(results)
         if resultLength == 1:
             self.session_id = str(uuid.uuid4())
@@ -28,8 +28,8 @@ class UserLogin(DBAccessor,Jsonable):
         else:
             raise Exception("Invalid username %s!", username)
 
-    def _getGroups(self):
-        self.cur.execute( sql.get_groups_for_user, (self.userName,) )
-        return self.cur.fetchall()[0]
+    def _getViews(self):
+        self.cur.execute( sql.get_views_for_user, (self.userName,) )
+        return self.cur.fetchall()
 
 

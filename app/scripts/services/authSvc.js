@@ -63,6 +63,7 @@ angular.module('smarteslApp')
       this.firstName = userData['firstName'];
       this.lastname = userData['lastName'];
       this.role = userData['role'];
+      this.views = userData['views'];
       this.loggedOn = 1;
     };
     this.destroy = function () {

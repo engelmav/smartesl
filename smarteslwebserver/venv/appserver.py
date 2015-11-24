@@ -31,7 +31,7 @@ def login():
     username = loginData['username']
 
     userLogin = UserLogin()
-    fields = ['userName','firstName', 'role', 'session_id']
+    fields = ['userName','firstName', 'role', 'session_id', 'views']
     userJson = userLogin.loginUser(username).to_json(fields)
 
     print "Response from login.loginUser(username).as_json():"

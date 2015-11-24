@@ -94,8 +94,8 @@ get_metatags_of_question = """
 select tag_name from metatags where question_id = %s;
 """
 
-get_groups_for_user = """
-select gv.view_name from group_views gv
+get_views_for_user = """
+select gv.view_name,view_url from group_views gv
 left join user_groups ug
 on gv.group_id = ug.group_id
 left join users u
