@@ -15,7 +15,7 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li ng-if="Session.loggedOn == 1"><a ng-href="#/">Logout</a></li>
+        <li ng-if="Session.loggedOn == 1"><a ng-href="#/">Logout</a></li> <!--http://stackoverflow.com/questions/19635407/angular-logout-redirect-route -->
         <li ng-if="Session.loggedOn == 0"><a ng-href="#/">Login</a></li>
       </ul>
     </div><!--/.nav-collapse -->

@@ -109,6 +109,12 @@ def getQuestionContent():
     qestionContent = dba.getQuestionContent(questionId)
     return jsonify({'question' : questionContent})
 
+@app.route('/logout', methods=['POST'])
+def logout():
+    
+    # clear uuid and stuff here
+    pass
+
 if __name__ == '__main__':
 
     app.run(debug=True)
