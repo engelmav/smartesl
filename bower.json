@@ -13,7 +13,8 @@
     "angular-animate": "1.2.16",
     "angular-touch": "1.2.16",
     "angular-route": "1.2.16",
-    "bootstrap": "~3.3.4"
+    "bootstrap": "~3.3.4",
+    "angular-messages": "ng-messages#*"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",

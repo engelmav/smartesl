@@ -1,11 +1,12 @@
 # what is the thing about samurais crafting their own weapons?
 
-from flask import Flask, jsonify, json, request
+from flask import Flask, jsonify, json, request, session
 from flask.ext.cors import CORS, cross_origin
 from user_login import UserLogin
 from model import DBAccessor
 
 app = Flask(__name__)
+app.secret_key = 'dev'
 
 with app.app_context():
     dba = DBAccessor()
@@ -33,6 +34,7 @@ def login():
     userLogin = UserLogin()
     fields = ['userName','firstName', 'role', 'session_id', 'views']
     userJson = userLogin.loginUser(username).to_json(fields)
+    session['logged_in'] = True
 
     print "Response from login.loginUser(username).as_json():"
     print userJson
@@ -111,9 +113,8 @@ def getQuestionContent():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    
-    # clear uuid and stuff here
-    pass
+    session.pop('logged_in', None)
+
 
 if __name__ == '__main__':
 

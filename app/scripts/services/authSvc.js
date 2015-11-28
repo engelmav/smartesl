@@ -67,11 +67,12 @@ angular.module('smarteslApp')
       this.loggedOn = 1;
     };
     this.destroy = function () {
-      console.log('In the Session.destroy method.');
+      console.log('test.');
       this.id = null;
       this.userId = null;
       this.userRole = 0;
-      this.loggedOn = false;
+      this.loggedOn = 0;
+      this.views = [];
     };
 
   });

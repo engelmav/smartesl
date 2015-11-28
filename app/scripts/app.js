@@ -15,13 +15,18 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ngMessages'
   ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/login_form.html',
         controller: 'LoginController'
+      })
+      .when('/logout', {
+        template: 'logout!',
+        controller: 'LogoutCtrl'
       })
       .when('/answer_question', {
         templateUrl: 'views/main.html',
