@@ -8,8 +8,8 @@ angular.module('smarteslApp')
             scope: {
                 progress: '=question'
             },
-            templateUrl: '/views/question_body.html',
-            
+            templateUrl: '../app/views/question_body.html',
+
             controller: function($scope,$http,$timeout){
 
               console.log('Inside the controller of the question directive.');

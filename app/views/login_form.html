@@ -1,3 +1,4 @@
+<!--
 <form
   ng-if="Session.loggedOn == 0"
   name="loginForm"
@@ -23,40 +24,50 @@
     <button type="submit" class="btn-primary btn">Login</button>
   </div>
 </form>
+-->
 
+<!-- FORM -->
+<!-- pass in the variable if our form is valid or invalid -->
+<form
+  ng-if="Session.loggedOn == 0"
+  ng-controller="LoginController"
+  name="loginForm"
+  ng-submit="login(credentials)"
+  novalidate> <!-- novalidate prevents HTML5 validation since we will be validating ourselves -->
 
+  <!-- USERNAME -->
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Username</label>
+    <input
+      type="text"
+      name="username"
+      placeholder="username"
+      class="form-control"
+      ng-model="credentials.username"
+      ng-minlength="3"
+      required>
+    <p ng-show="loginForm.username.$error.minlength" class="help-block">Username is too short.</p>
+  </div>
 
+  <!-- PASSWORD -->
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Password</label>
+    <input
+      type="password"
+      name="password"
+      placeholder="password"
+      class="form-control"
+      ng-model="credentials.password"
+      ng-minlength="3"
+      required>
+    <p ng-show="loginForm.password.$error.minlength" class="help-block">Password is too short.</p>
+  </div>
 
-
-<div class="container">
-  <div class="col-sm-8 col-sm-offset-2">
-
-    <!-- PAGE HEADER -->
-    <div class="page-header"><h1>Login!</h1></div>
-
-    <!-- FORM -->
-    <!-- pass in the variable if our form is valid or invalid -->
-    <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate> <!-- novalidate prevents HTML5 validation since we will be validating ourselves -->
-
-      <!-- USERNAME -->
-      <div class="form-group">
-        <label>Username</label>
-        <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="3" required>
-        <p ng-show="userForm.username.$error.minlength" class="help-block">Username is too short.</p>
-      </div>
-
-      <!-- PASSWORD -->
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" name="password" class="form-control" ng-model="user.password" ng-minlength="3" required>
-        <p ng-show="userForm.password.$error.minlength" class="help-block">Password is too short.</p>
-      </div>
-
-      <!-- SUBMIT BUTTON -->
-      <button ng-show="!userForm.password.$error.minlength && !userForm.username.$error.minlength && !userForm.username.$error.required && !userForm.password.$error.required"
-         type="submit" class="btn btn-primary">Submit<button>
-
-    </form>
-
-  </div><!-- col-sm-8 -->
-</div><!-- /container -->
+  <!-- LOGIN BUTTON -->
+  <div class="form-group">
+    <button
+      ng-disabled="loginForm.username.$error.minlength || loginForm.username.$error.required || loginForm.password.$error.required"
+      type="submit"
+      class="btn btn-primary">Login</button>
+  </div>
+</form>
