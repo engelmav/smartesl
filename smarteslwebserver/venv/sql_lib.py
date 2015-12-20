@@ -1,6 +1,6 @@
 get_user_data = """
 SELECT userName, firstname, lastname, role FROM users
-WHERE username = %s;
+WHERE username = %s and password = %s;
 """
 
 get_question_by_id = """
@@ -8,7 +8,7 @@ SELECT
   q.body
   , c.choice_text
 FROM questions q
-LEFT JOIN choices c 
+LEFT JOIN choices c
 ON q.question_id = c.question_id;
 WHERE q.id = %s;
 """
