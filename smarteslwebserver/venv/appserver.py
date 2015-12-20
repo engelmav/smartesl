@@ -13,6 +13,7 @@ with app.app_context():
 
 CORS(app, resources=r'/*', allow_headers='Content-Type')
 
+
 def getCurrentQuestion():
 # will need the following variables:
 #     userId. Will look up class/session of userId and look up the
@@ -25,6 +26,7 @@ def getCurrentQuestion():
     question['metadata'] = ['passive voice', 'extra syllabic ending']
     return question
 
+
 @app.route('/login', methods=['POST'])
 def login():
     loginData = json.loads(request.data.decode())
@@ -32,7 +34,7 @@ def login():
     username = loginData['username']
 
     userLogin = UserLogin()
-    fields = ['userName','firstName', 'role', 'session_id', 'views']
+    fields = ['userName', 'firstName', 'role', 'session_id', 'views']
     userJson = userLogin.loginUser(username).to_json(fields)
     session['logged_in'] = True
 
@@ -66,6 +68,7 @@ def submitAnswer():
     # student answers question
     return jsonify({'oh':'jes'})
 
+
 @app.route('/question/submit_question', methods=['POST'])
 def submitQuestion():
     question = json.loads(request.data.decode())
@@ -73,12 +76,14 @@ def submitQuestion():
 
     return jsonify( { 'questionId': questionId } )
 
+
 @app.route('/instructor/submit_timeline', methods=['POST'])
 def submitTimeline():
     timelineData = json.loads(request.data.decode())
     print timelineData
     dba.addTimeline(timelineData)
     return jsonify({'oh':'jes'})
+
 
 @app.route('/search/timelines', methods=['POST'])
 def searchTimelines():
@@ -88,6 +93,7 @@ def searchTimelines():
     print results
     return jsonify({'results':results})
 
+
 @app.route('/search/questions', methods=['POST'])
 def searchQuestions():
     searchPhrase = json.loads(request.data.decode())
@@ -96,12 +102,14 @@ def searchQuestions():
     print results
     return jsonify({'results':results})
 
+
 @app.route('/instructor/get_classes', methods=['POST'])
 def getInstructorClasses():
     data = json.loads(request.data.decode())
     instructorId = data['instructorId']
     instructor_classes = dba.getInstructorClasses(instructorId)
     return jsonify({'classes':instructor_classes})
+
 
 # /services/get_question_content
 @app.route('/instructor/get_classes', methods=['POST'])
@@ -110,6 +118,7 @@ def getQuestionContent():
     questionId = data['id']
     qestionContent = dba.getQuestionContent(questionId)
     return jsonify({'question' : questionContent})
+
 
 @app.route('/logout', methods=['POST'])
 def logout():
