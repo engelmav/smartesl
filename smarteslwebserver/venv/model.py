@@ -3,6 +3,7 @@ import sql_lib as sql
 
 DB_CXN_STR = "dbname=smartesl user=appuser password=a0kroger host=localhost port=15432"
 
+
 class DBAccessor:
 
     def __init__(self):
@@ -10,24 +11,23 @@ class DBAccessor:
         self.cur = self.conn.cursor()
 
 
-    def getQuestionById(self,id):
-        print sql_get_question_by_id
+    def get_question_by_id(self, id):
         pass
 
-    def getStudentListByInstructor(self,instructor):
+    def get_student_list_by_instructor(self, instructor):
         pass
 
-    def addInstructor(self,firstname,lastname,email,phone):
+    def add_instructor(self, firstname, lastname, email, phone):
         self.cur.execute(sql.add_instructor,
             (firstname,lastname,email,phone))
         self.conn.commit()
 
-    def addStudent(self,firstname,lastname,email,phone):
+    def add_student(self, firstname, lastname, email, phone):
         self.cur.execute(sql.add_student
             (firstname,lastname,email,phone))
         self.conn.commit()
 
-    def addQuestion(self,question_data):
+    def add_question(self, question_data):
         print question_data
         body = question_data['body']
 
@@ -45,10 +45,11 @@ class DBAccessor:
 
         metatags = question_data['metatags']
         for metatag in metatags:
-            self.cur.execute( sql.add_metatag, (metatag, lastQuestionId) )
+            self.cur.execute(sql.add_metatag, (metatag, lastQuestionId))
         self.conn.commit()
         return lastQuestionId
-    def searchQuestions(self,searchPhrase):
+
+    def search_questions(self, searchPhrase):
         results = ''
         try:
             self.cur.execute(sql.keyword_question_search,(searchPhrase,))
@@ -58,7 +59,7 @@ class DBAccessor:
             print e.pgcode
         return results
 
-    def searchTimelines(self,searchPhrase):
+    def search_timelines(self, searchPhrase):
         results = ''
         try:
             self.cur.execute(searchSql,(searchPhrase,))
@@ -68,7 +69,7 @@ class DBAccessor:
             print e.pgcode
         return results
 
-    def setCurrentQuestion(self,qid):
+    def set_current_question(self, qid):
         #         smartesl=# \d current_questions
         #  Table "public.current_questions"
         #    Column    |  Type   | Modifiers
@@ -77,7 +78,7 @@ class DBAccessor:
         #  class_id    | integer |
         pass
 
-    def addTimeline(self, timelineData):
+    def add_timeline(self, timelineData):
         qIds =     timelineData['questionIds']
         tlName =   timelineData['timelineName']
         userName = timelineData['userId']
@@ -89,14 +90,14 @@ class DBAccessor:
             self.cur.execute(sql.insert_question_set_list,(lastSetId, q))
         self.conn.commit()
 
-    def getInstructorClasses(self,instructorId):
+    def get_instructor_classes(self, instructorId):
         self.cur.execute(sql.get_instructor_classes,(instructorId,))
         return self.cur.fetchall()
 
-    def broadcastQuestion(self,questionId,classId):
+    def broadcast_question(self, questionId, classId):
         pass
 
-    def getQuestionContent(self,questionId):
+    def get_question_content(self, questionId):
         # get the question body and creator
         self.cur.execute(sql.get_question_content,(questionId,))
         body, creator = self.cur.fetchone()
@@ -107,9 +108,9 @@ class DBAccessor:
         self.cur.execute(sql.get_metatags_of_question,(questionId,))
         metatags = self.cur.fetchall()
         # assemble all the things
-        
+
 
 if __name__ == '__main__':
 
     dba = DBAccessor()
-    dba.addStudent('SomeStudent','George','somname@host.com','32 43 22222')
+    dba.add_student('SomeStudent', 'George', 'somname@host.com', '32 43 22222')

@@ -72,7 +72,7 @@ def submitAnswer():
 @app.route('/question/submit_question', methods=['POST'])
 def submitQuestion():
     question = json.loads(request.data.decode())
-    questionId = dba.addQuestion(question)
+    questionId = dba.add_question(question)
 
     return jsonify( { 'questionId': questionId } )
 
@@ -81,7 +81,7 @@ def submitQuestion():
 def submitTimeline():
     timelineData = json.loads(request.data.decode())
     print timelineData
-    dba.addTimeline(timelineData)
+    dba.add_timeline(timelineData)
     return jsonify({'oh':'jes'})
 
 
@@ -89,7 +89,7 @@ def submitTimeline():
 def searchTimelines():
     searchPhrase = json.loads(request.data.decode())
     print searchPhrase
-    results = dba.searchTimelines(searchPhrase['phrase'])
+    results = dba.search_timelines(searchPhrase['phrase'])
     print results
     return jsonify({'results':results})
 
@@ -98,7 +98,7 @@ def searchTimelines():
 def searchQuestions():
     searchPhrase = json.loads(request.data.decode())
     print searchPhrase
-    results = dba.searchQuestions(searchPhrase['phrase'])
+    results = dba.search_questions(searchPhrase['phrase'])
     print results
     return jsonify({'results':results})
 
@@ -107,7 +107,7 @@ def searchQuestions():
 def getInstructorClasses():
     data = json.loads(request.data.decode())
     instructorId = data['instructorId']
-    instructor_classes = dba.getInstructorClasses(instructorId)
+    instructor_classes = dba.get_instructor_classes(instructorId)
     return jsonify({'classes':instructor_classes})
 
 
@@ -116,7 +116,7 @@ def getInstructorClasses():
 def getQuestionContent():
     data = json.loads(request.data.decode())
     questionId = data['id']
-    qestionContent = dba.getQuestionContent(questionId)
+    qestionContent = dba.get_question_content(questionId)
     return jsonify({'question' : questionContent})
 
 
