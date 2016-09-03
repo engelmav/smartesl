@@ -1,5 +1,7 @@
 # SmartESL
 
+Warning: namespacing is now borked. Do not attempt to execute this.
+
 
 # Definitions
 ## Class
