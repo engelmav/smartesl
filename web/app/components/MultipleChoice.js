@@ -9,10 +9,12 @@ class MultipleChoice extends React.Component {
         this.state = {
             selectedAnswer: null
         }
+        this.handleOptionChange = this.handleOptionChange.bind(this)
     }
 
-    handleChange(value) {
-        this.setState( { selectedAnswer: value } )
+    handleOptionChange(changeEvent) {
+        console.log("Selected: " + changeEvent.target.value)
+        this.setState( { selectedAnswer: changeEvent.target.value } )
     }
 
     render () {
@@ -20,12 +22,16 @@ class MultipleChoice extends React.Component {
             <div>
                 <p>{this.props.question}</p>
                 <form>
-                    {this.props.choices.map(function(choice, idx) {
+                    {this.props.choices.map((choice, idx) => {
                         return (
                             <div key={idx}>
                                 <label>
-                                    <input type="radio" value={choice} />
-                                    {choice}
+                                    <input
+                                        type="radio"
+                                        value={choice}
+                                        checked={this.state.selectedAnswer === choice}
+                                        onChange={this.handleOptionChange} />
+                                        {choice}
                                 </label>
                             </div>
                         )
