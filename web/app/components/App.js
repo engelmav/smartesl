@@ -1,10 +1,14 @@
 var React = require('react');
 var MultipleChoice = require('./MultipleChoice');
+var CreateMultipleChoice = require('./CreateMultipleChoice');
 
 class App extends React.Component {
     render () {
         return (
-            <MultipleChoice />
+            <div>
+                <MultipleChoice />
+                <CreateMultipleChoice />
+            </div>
         )
     }
 }
