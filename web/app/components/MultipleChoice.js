@@ -18,24 +18,25 @@ class MultipleChoice extends React.Component {
     }
 
     render () {
+        var answerButton = (choice, idx) => {
+            return (
+                <div key={idx}>
+                    <label>
+                        <input
+                            type="radio"
+                            value={choice}
+                            checked={this.state.selectedAnswer === choice}
+                            onChange={this.handleOptionChange} />
+                            {choice}
+                    </label>
+                </div>
+            )
+        }
         return (
             <div>
                 <p>{this.props.question}</p>
                 <form>
-                    {this.props.choices.map((choice, idx) => {
-                        return (
-                            <div key={idx}>
-                                <label>
-                                    <input
-                                        type="radio"
-                                        value={choice}
-                                        checked={this.state.selectedAnswer === choice}
-                                        onChange={this.handleOptionChange} />
-                                        {choice}
-                                </label>
-                            </div>
-                        )
-                    })}
+                    {this.props.choices.map(answerButton)}
                 </form>
             </div>
         )
