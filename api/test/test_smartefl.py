@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restplus import Api
 import resources as main_resources
+import json
 from logger import log
 
 import pytest
@@ -26,5 +27,7 @@ def test_post_question(app):
         "choices": [ "conceive", "conceived", "conceiving"],
         "metatags": ["preterit"]
     }
-    r = app.post("/api/multi_choice/", data=question_payload)
+    r = app.post("/api/multi_choice/",
+                 data=json.dumps(question_payload),
+                 content_type='application/json')
     print(r)
