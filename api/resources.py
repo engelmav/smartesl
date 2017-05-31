@@ -20,20 +20,23 @@ engine = create_engine(db_conn_str)
 session = Session(bind=engine)
 
 
-@api.route('/multi_choice/')
-class MultiChoiceQuestion(Resource):
-    # @api.marshal_with(multi_choice)
-    # @api.route('/multi_choice/<string:question_id>')
-    # @api.param('question_id', 'The cat identifier')
-    def get(self, question_id):
-        log.debug("Getting question id %s", question_id)
-        question = session.query(MultipleChoiceQuestionM).filter_by(question_id=question_id)
+@api.route('/multi_choice/<id>')
+class MultiChoiceQuestionGet(Resource):
+    @api.marshal_with(multi_choice)
+    @api.param('id', 'The cat identifier')
+    def get(self, id):
+        log.debug("Getting question id %s", id)
+        question = session.query(MultipleChoiceQuestionM).\
+            filter_by(question_id=id).first()
+
+        log.debug("Question returned: %s", question)
         if question.count() == 0:
             abort(404, "No question found with ID %s" % question_id)
         return question
 
-    @api.expect(multi_choice)
-    @api.marshal_with(multi_choice)
+
+@api.route('multi_choice/')
+class MultiChoiceQuestionInsert(Resource):
     def post(self):
 
         question_dict = self.api.payload

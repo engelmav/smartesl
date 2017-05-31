@@ -20,9 +20,16 @@ def app():
     return flask_app.test_client()
 
 
-def test_get_question(app):
-    r = app.post("/api/multi_choice/2")
-    print(r)
+def test_get_question_404(app):
+    r = app.get("/api/multi_choice/45454545")
+    log.debug(r)
+    assert r.status_code == 404
+
+
+def test_get_question_200(app):
+    r = app.get("/api/multi_choice/1")
+    log.debug(r)
+    assert r.status_code == 200
 
 
 def test_post_question(app):
