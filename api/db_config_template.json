@@ -1,10 +1,5 @@
 {
-  "mysql": {
-      "driver": "mysql",
-      "host": "localhost",
-      "database": 'database",
-      "user": "root",
-      "password': "somepasswd",
-      "prefix": ""
+  "test": {
+    "db_connection_str": "dbtype://user:password@host/database"
   }
 }

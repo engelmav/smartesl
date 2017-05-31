@@ -1,9 +1,11 @@
-# SmartESL
+# SmartEFL
 
-Warning: namespacing is now borked. Do not attempt to execute this.
-
+Language teaching powered by analytics.
 
 # Definitions
+
+Below are core schema components.
+
 ## Class
 A class is a group of sessions over time. A class has many sessions. A class has a schedule.
 
