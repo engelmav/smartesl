@@ -3,6 +3,7 @@ from flask_restplus import Api
 import resources as main_resources
 import json
 from logger import log
+import codecs
 
 import pytest
 
@@ -30,4 +31,7 @@ def test_post_question(app):
     r = app.post("/api/multi_choice/",
                  data=json.dumps(question_payload),
                  content_type='application/json')
-    print(r)
+    response = r.data.decode('utf8')
+    question_data = json.loads(response)
+    log.info(question_data['metatags'][0])
+    assert question_data['metatags'][0] == 'preterit'

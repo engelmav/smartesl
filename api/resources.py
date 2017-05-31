@@ -12,6 +12,7 @@ multi_choice = api.model('MultipleChoice', {
     'question_id': fields.Integer(readOnly=True, description="The question's unique identifier"),
     'body': fields.String(required=True, description='Body of the question'),
     'choices': fields.List(fields.String),
+    'metatags': fields.List(fields.String),
     'creator': fields.String(required=True)
 })
 
@@ -38,4 +39,4 @@ class MultiChoiceQuestion(Resource):
         # question = MultiChoiceQuestion(question.body, question.choices)
         # session.add(question)
         # session.commit()
-        # return question
+        return self.api.payload
