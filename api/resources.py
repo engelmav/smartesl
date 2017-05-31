@@ -1,5 +1,5 @@
 from flask_restplus import Namespace, Resource, fields, abort
-from models import MultipleChoice
+from models import MultipleChoiceQuestionM, Metatag, Choice
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from config import db_conn_str
@@ -37,9 +37,23 @@ class MultiChoiceQuestion(Resource):
     def post(self):
         question_dict = self.api.payload
         log.debug("Question data posted: %s", question_dict)
-        question = MultipleChoice(body=question_dict['body'],
-                                       choices=question_dict['choices'],
-                                       metatags=question_dict['metatags'])
+        log.debug(question_dict['metatags'])
+        body = question_dict['body']
+        metatags = question_dict['metatags']
+        choices = question_dict['choices']
+        question = MultipleChoiceQuestionM(body=body,
+                                           # choices=choices,
+                                           # metatags=metatags
+                                           )
         session.add(question)
-        # session.commit()
+        session.commit()
+
+        for m in metatags:
+            question.metatags.append(Metatag(tag_name=m, question=question))
+
+        for c in choices:
+            question.choices.append(Choice(choice_text=c, question=question))
+
+        session.add(question)
+        session.commit()
         return self.api.payload

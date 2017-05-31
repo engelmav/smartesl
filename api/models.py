@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Boolean, Column, DateTime, Integer, Table, Text, text
+from sqlalchemy import Boolean, Column, ForeignKey, DateTime, Integer, Table, Text, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -11,7 +11,7 @@ class Choice(Base):
     __tablename__ = 'choices'
 
     choice_id = Column(Integer, primary_key=True)
-    question_id = Column(Integer)
+    question_id = Column(Integer, ForeignKey('questions.question_id'))
     tag_name = Column(Text)
     choice_text = Column(Text)
     iscorrect = Column(Boolean)
@@ -36,8 +36,7 @@ class Metatag(Base):
 
     metatag_id = Column(Integer, primary_key=True)
     tag_name = Column(Text)
-    question_id = Column(Integer)
-
+    question_id = Column(Integer, ForeignKey('questions.question_id'))
 
 t_question_set_list = Table(
     'question_set_list', metadata,
@@ -56,29 +55,19 @@ t_question_sets = Table(
 )
 
 
-class Question(Base):
+class MultipleChoiceQuestionM(Base):
     __tablename__ = 'questions'
 
     question_id = Column(Integer, primary_key=True)
     body = Column(Text)
     creator = Column(Integer)
+    metatags = relationship("Metatag", backref='question', lazy='dynamic')
+    choices = relationship("Choice", backref='question', lazy='dynamic')
 
     def __repr__(self):
         return "<Question(%r, %r)>" % (
                 self.question_id, self.body
             )
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'questions'
-    }
-
-
-class MultipleChoice(Question):
-    metatags = relationship("Metatag")
-    choices = relationship("Choice")
-    __mapper_args__ = {
-        'polymorphic_identity': 'questions'
-    }
 
 
 t_student_classes = Table(

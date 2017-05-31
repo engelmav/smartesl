@@ -26,7 +26,8 @@ def test_post_question(app):
     question_payload = {
         "body": "This app was ____ in 2014.",
         "choices": [ "conceive", "conceived", "conceiving"],
-        "metatags": ["preterit"]
+        "metatags": ["preterit"],
+        "creator": "vengelmann"
     }
     r = app.post("/api/multi_choice/",
                  data=json.dumps(question_payload),
