@@ -35,8 +35,11 @@ class MultiChoiceQuestion(Resource):
     @api.expect(multi_choice)
     @api.marshal_with(multi_choice)
     def post(self):
-        log.debug("Question data posted: %s", str(self.api.payload))
-        # question = MultiChoiceQuestion(question.body, question.choices)
-        # session.add(question)
+        question_dict = self.api.payload
+        log.debug("Question data posted: %s", question_dict)
+        question = MultipleChoice(body=question_dict['body'],
+                                       choices=question_dict['choices'],
+                                       metatags=question_dict['metatags'])
+        session.add(question)
         # session.commit()
         return self.api.payload

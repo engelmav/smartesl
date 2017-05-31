@@ -1,6 +1,7 @@
 # coding: utf-8
 from sqlalchemy import Boolean, Column, DateTime, Integer, Table, Text, text
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 metadata = Base.metadata
@@ -73,6 +74,8 @@ class Question(Base):
 
 
 class MultipleChoice(Question):
+    metatags = relationship("Metatag")
+    choices = relationship("Choice")
     __mapper_args__ = {
         'polymorphic_identity': 'questions'
     }
