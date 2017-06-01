@@ -45,7 +45,8 @@ def test_post_question(app):
     response = r.data.decode('utf8')
     question_data = json.loads(response)
     log.info("Question data in  test_post_question: %s", response)
-    assert question_data['metatags'][0] == 'preterit'
+    assert question_data['metatags'][0]['tag_name'] == 'preterit'
+    assert question_data['choices'][0]['choice_text'] == 'conceive'
     assert r.status_code == 200
 
 

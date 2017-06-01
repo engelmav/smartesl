@@ -8,19 +8,21 @@ from logger import log
 
 api = Namespace("main", description='SmartEFL API')
 
+choice_fields = api.model('Choice', {
+    'choice_id': fields.Integer,
+    'choice_text': fields.String,
+})
+
+metatags_fields = api.model('Metatags', {
+    'metatag_id': fields.Integer,
+    'tag_name': fields.String,
+})
 
 multi_choice_json_schema = api.model('MultipleChoiceQuestionM', {
     'question_id': fields.Integer(readOnly=True, description="The question's unique identifier"),
     'body': fields.String(required=True, description='Body of the question'),
-
-    # users': fields.List(fields.Nested(user_fields)),
-
-    'choices': fields.List(fields.String(attribute=lambda x: x.choice_text)),
-    'metatags': fields.List(fields.String(attribute=lambda x: x.tag_name)),
-
-
-
-
+    'choices': fields.List(fields.Nested(choice_fields)),
+    'metatags':fields.List(fields.Nested(metatags_fields)),
     'user_id': fields.String
 })
 
@@ -74,4 +76,4 @@ class MultiChoiceQuestionInsert(Resource):
 
         log.debug("Committed new question with ID %s", question.question_id)
         question_dict['question_id'] = question.question_id
-        return question_dict
+        return marshal(question, multi_choice_json_schema)
