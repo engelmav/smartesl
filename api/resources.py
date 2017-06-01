@@ -1,4 +1,4 @@
-from flask_restplus import Namespace, Resource, fields, abort
+from flask_restplus import Namespace, Resource, fields, abort, marshal
 from models import MultipleChoiceQuestionM, Metatag, Choice, User
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
@@ -8,12 +8,20 @@ from logger import log
 
 api = Namespace("main", description='SmartEFL API')
 
-multi_choice = api.model('MultipleChoice', {
+
+multi_choice_json_schema = api.model('MultipleChoiceQuestionM', {
     'question_id': fields.Integer(readOnly=True, description="The question's unique identifier"),
     'body': fields.String(required=True, description='Body of the question'),
-    'choices': fields.List(fields.String),
-    'metatags': fields.List(fields.String),
-    'user_id': fields.String(required=True)
+
+    # users': fields.List(fields.Nested(user_fields)),
+
+    'choices': fields.List(fields.String(attribute=lambda x: x.choice_text)),
+    'metatags': fields.List(fields.String(attribute=lambda x: x.tag_name)),
+
+
+
+
+    'user_id': fields.String
 })
 
 engine = create_engine(db_conn_str)
@@ -22,7 +30,7 @@ session = Session(bind=engine)
 
 @api.route('/multi_choice/<id>')
 class MultiChoiceQuestionGet(Resource):
-    @api.marshal_with(multi_choice)
+    @api.marshal_with(multi_choice_json_schema)
     @api.param('id', 'The cat identifier')
     def get(self, id):
         log.debug("Getting question id %s", id)
@@ -30,12 +38,12 @@ class MultiChoiceQuestionGet(Resource):
             filter_by(question_id=id).first()
 
         log.debug("Question returned: %s", question)
-        if question.count() == 0:
-            abort(404, "No question found with ID %s" % question_id)
+        if question is None:
+            abort(404, "No question found with ID %s" % id)
         return question
 
 
-@api.route('multi_choice/')
+@api.route('/multi_choice/')
 class MultiChoiceQuestionInsert(Resource):
     def post(self):
 
@@ -63,4 +71,7 @@ class MultiChoiceQuestionInsert(Resource):
 
         session.add(question)
         session.commit()
-        return self.api.payload
+
+        log.debug("Committed new question with ID %s", question.question_id)
+        question_dict['question_id'] = question.question_id
+        return question_dict
