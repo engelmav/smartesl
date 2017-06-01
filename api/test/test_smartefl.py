@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from config import db_conn_str
 from models import User, MultipleChoiceQuestionM, Metatag, Choice
-
 import pytest
 
 

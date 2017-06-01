@@ -90,19 +90,3 @@ class User(Base):
     role = Column(Text)
     username = Column(Text)
 
-#     __mapper_args__ = {
-#         'polymorphic_on':type,
-#         'polymorphic_identity': 'users'
-#     }
-#
-#
-# class Student(User):
-#     __mapper_args__ = {
-#         'polymorphic_identity': 'users'
-#     }
-#
-#
-# class Instructor(User):
-#     __mapper_args__ = {
-#         'polymorphic_identity': 'users'
-#     }
