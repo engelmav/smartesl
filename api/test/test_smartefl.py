@@ -18,6 +18,11 @@ def app():
     api.init_app(flask_app)
     return flask_app.test_client()
 
+@pytest.fixture
+def sqla_session():
+    engine = create_engine(db_conn_str)
+    return Session(bind=engine)
+
 
 def test_get_question_404(app):
     r = app.get("/api/multi_choice/45454545")
@@ -49,22 +54,19 @@ def test_post_question(app):
     assert r.status_code == 200
 
 
-def test_find_user_by_id():
-    engine = create_engine(db_conn_str)
-    session = Session(bind=engine)
-    user_result = session.query(User).filter_by(user_id=108).first()
+def test_find_user_by_id(sqla_session):
+    user_result = sqla_session.query(User).filter_by(user_id=108).first()
     log.debug(user_result.user_id)
+    assert user_result.user_id == 108
 
 
-def test_add_question_with_creator():
-    engine = create_engine(db_conn_str)
-    session = Session(bind=engine)
-    user_result = session.query(User).filter_by(user_id=108).first()
+def test_add_question_with_creator(sqla_session):
+    user_result = sqla_session.query(User).filter_by(user_id=108).first()
     question = MultipleChoiceQuestionM(body="body of question")
 
     question.creator = user_result.user_id
 
-    session.add(question)
+    sqla_session.add(question)
 
     for m in ["tag1", "tag2", "tag2"]:
         question.metatags.append(Metatag(tag_name=m, question=question))
@@ -72,6 +74,6 @@ def test_add_question_with_creator():
     for c in ["choice1", "choice2", "choice3"]:
         question.choices.append(Choice(choice_text=c, question=question))
 
-    session.add(question)
-    session.commit()
+    sqla_session.add(question)
+    sqla_session.commit()
 
