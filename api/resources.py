@@ -25,7 +25,6 @@ class PostQuestion(Resource):
         return marshal(question, schema.multi_choice)
 
 
-# @api.route('/user/<user_id>')
 class GetUser(Resource):
     @api.marshal_with(schema.user)
     @api.param('user_id', 'User ID')
@@ -37,7 +36,6 @@ class GetUser(Resource):
         return user
 
 
-# @api.route('/user/')
 class PostUser(Resource):
     def post(self):
         user_dict = self.api.payload
@@ -49,4 +47,4 @@ class PostUser(Resource):
 api.add_resource(GetQuestion, '/multi_choice/<question_id>')
 api.add_resource(PostQuestion, '/multi_choice/')
 api.add_resource(GetUser, '/user/<user_id>')
-api.add_resource(PostUser, '/user')
+api.add_resource(PostUser, '/user/')

@@ -4,7 +4,7 @@ import resources as main_resources
 import json
 from logger import log
 import pytest
-from .seed_data import dummy_question
+from .seed_data import dummy_question, dummy_user
 
 
 @pytest.fixture
@@ -40,5 +40,15 @@ def test_post_question(app):
     assert r.status_code == 200
 
 
+def test_get_user(app):
+    pass
 
 
+def test_post_user(app):
+    r = app.post("/api/user/",
+                 data=json.dumps(dummy_user),
+                 content_type='application/json')
+    response = r.data.decode('utf8')
+    user_data = json.loads(response)
+    log.debug(user_data)
+    assert user_data['username'] == 'vengelmann'

@@ -48,9 +48,10 @@ def create_user(user_dict: dict) -> int:
     last_name = user_dict['last_name']
     role = user_dict['role']
     email = user_dict['email']
+    username = user_dict['username']
 
     user = User(first_name=first_name, last_name=last_name, role=role,
-                email=email)
+                username=username, email=email)
     session.add(user)
     session.commit()
     return user
