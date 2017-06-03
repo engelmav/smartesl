@@ -55,7 +55,7 @@ t_question_sets = Table(
 )
 
 
-class MultipleChoiceQuestionM(Base):
+class Question(Base):
     __tablename__ = 'questions'
 
     creator = Column(Integer, ForeignKey('users.user_id'))
@@ -65,7 +65,7 @@ class MultipleChoiceQuestionM(Base):
     choices = relationship('Choice', backref='question', lazy='dynamic')
 
     def __repr__(self):
-        return "<MultipleChoiceQuestionM(%r, %r)>" % (
+        return "<Question(%r, %r)>" % (
                 self.question_id, self.body
             )
 
@@ -80,7 +80,7 @@ t_student_classes = Table(
 class User(Base):
     __tablename__ = 'users'
 
-    questions = relationship('MultipleChoiceQuestionM', backref='question', lazy='dynamic')
+    questions = relationship('Question', backref='question', lazy='dynamic')
     user_id = Column(Integer, primary_key=True)
     first_name = Column(Text)
     last_name = Column(Text)

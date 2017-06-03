@@ -3,10 +3,7 @@ from flask_restplus import Api
 import resources as main_resources
 import json
 from logger import log
-from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
-from config import db_conn_str
-from models import User, MultipleChoiceQuestionM, Metatag, Choice
+from services import create_user, find_user_by_id, create_multi_choice
 import pytest
 
 
@@ -18,10 +15,15 @@ def app():
     api.init_app(flask_app)
     return flask_app.test_client()
 
+
 @pytest.fixture
-def sqla_session():
-    engine = create_engine(db_conn_str)
-    return Session(bind=engine)
+def question():
+    return {
+        "body": "This app was ____ in 2014.",
+        "choices": [ "conceive", "conceived", "conceiving"],
+        "metatags": ["preterit"],
+        "user_id": "108"
+    }
 
 
 def test_get_question_404(app):
@@ -36,15 +38,9 @@ def test_get_question_200(app):
     assert r.status_code == 200
 
 
-def test_post_question(app):
-    question_payload = {
-        "body": "This app was ____ in 2014.",
-        "choices": [ "conceive", "conceived", "conceiving"],
-        "metatags": ["preterit"],
-        "user_id": "108"
-    }
+def test_post_question(app, question):
     r = app.post("/api/multi_choice/",
-                 data=json.dumps(question_payload),
+                 data=json.dumps(question),
                  content_type='application/json')
     response = r.data.decode('utf8')
     question_data = json.loads(response)
@@ -54,26 +50,25 @@ def test_post_question(app):
     assert r.status_code == 200
 
 
-def test_find_user_by_id(sqla_session):
-    user_result = sqla_session.query(User).filter_by(user_id=108).first()
-    log.debug(user_result.user_id)
+def test_find_user_by_id():
+    user_result = find_user_by_id(108)
     assert user_result.user_id == 108
 
 
-def test_add_question_with_creator(sqla_session):
-    user_result = sqla_session.query(User).filter_by(user_id=108).first()
-    question = MultipleChoiceQuestionM(body="body of question")
+def test_create_question(question):
+    q = create_multi_choice(question)
+    assert q is not None
 
-    question.creator = user_result.user_id
 
-    sqla_session.add(question)
-
-    for m in ["tag1", "tag2", "tag2"]:
-        question.metatags.append(Metatag(tag_name=m, question=question))
-
-    for c in ["choice1", "choice2", "choice3"]:
-        question.choices.append(Choice(choice_text=c, question=question))
-
-    sqla_session.add(question)
-    sqla_session.commit()
+def test_create_user():
+    user = {
+        'first_name': 'Vincent',
+        'last_name': 'Engelmann',
+        'username': 'vengelmann',
+        'password': 'tryAgain',
+        'email': 'someemail@email.com',
+        'role': 'student',
+    }
+    u = create_user(user)
+    assert u is not None
 
