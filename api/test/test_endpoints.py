@@ -7,6 +7,11 @@ import pytest
 from .seed_data import dummy_question, dummy_user
 
 
+def resp_to_json(response):
+    response_utf8 = response.data.decode('utf8')
+    return json.loads(response_utf8)
+
+
 @pytest.fixture
 def app():
     api = Api(title="SmartEFL")
@@ -41,7 +46,10 @@ def test_post_question(app):
 
 
 def test_get_user(app):
-    pass
+    r = app.get("/api/user/108")
+    resp_json = resp_to_json(r)
+    log.debug(resp_json)
+    assert resp_json['user_id'] == 108
 
 
 def test_post_user(app):

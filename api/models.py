@@ -38,21 +38,23 @@ class Metatag(Base):
     tag_name = Column(Text)
     question_id = Column(Integer, ForeignKey('questions.question_id'))
 
-t_question_set_list = Table(
-    'question_set_list', metadata,
-    Column('set_list_id', Integer, nullable=False),
-    Column('set_id', Integer),
-    Column('question_id', Integer)
-)
+
+class QuestionSetList(Base):
+    __tablename__ = 'question_set_list'
+
+    question_set_list_id = Column(Integer, primary_key=True)
+    question_set_id = Column(Integer, ForeignKey('question_sets.question_set_id'))
+    question_id = Column(Integer, ForeignKey('questions.question_id'))
 
 
-t_question_sets = Table(
-    'question_sets', metadata,
-    Column('set_id', Integer, nullable=False),
-    Column('creator_id', Integer),
-    Column('vote_score', Integer),
-    Column('set_name', Text)
-)
+class QuestionSet(Base):
+    __tablename__ = 'question_sets'
+
+    question_set_id = Column(Integer, primary_key=True)
+    creator_id = Column(Integer)
+    vote_score = Column(Integer)
+    set_name = Column(Text)
+    questions = relationship('QuestionSetList', backref='question_sets', lazy='dynamic')
 
 
 class Question(Base):

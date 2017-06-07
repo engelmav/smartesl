@@ -10,12 +10,13 @@ metatags_fields = Model('Metatags', {
     'tag_name': f.String,
 })
 
-multi_choice = Model('MultipleChoiceQuestionM', {
+multi_choice = Model('Question', {
     'question_id': f.Integer(readOnly=True, description="The question's unique identifier"),
     'body': f.String(required=True, description='Body of the question'),
     'choices': f.List(f.Nested(choice_fields)),
     'metatags': f.List(f.Nested(metatags_fields)),
-    'user_id': f.String
+    'user_id': f.String,
+    'evaluation_type': f.String
 })
 
 user = Model('User', {
@@ -28,4 +29,9 @@ user = Model('User', {
     'role': f.String
 })
 
+question_list = Model
+
+question_set = Model('QuestionSet', {
+
+})
 

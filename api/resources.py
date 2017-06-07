@@ -11,7 +11,7 @@ class GetQuestion(Resource):
     @api.param('question_id', 'Question ID')
     def get(self, question_id):
         log.debug("Getting question id %s", question_id)
-        question = services.find_question_by_id(question_id)
+        question = services.get_question_by_id(question_id)
         if question is None:
             abort(404, "No question found with ID %s" % question_id)
         return marshal(question, schema.multi_choice)
@@ -26,14 +26,13 @@ class PostQuestion(Resource):
 
 
 class GetUser(Resource):
-    @api.marshal_with(schema.user)
     @api.param('user_id', 'User ID')
     def get(self, user_id):
         log.debug("Getting question id %s", user_id)
-        user = services.find_user_by_id(user_id)
+        user = services.get_user_by_id(user_id)
         if user is None:
             abort(404, "No user found with ID %s" % user_id)
-        return user
+        return marshal(user, schema.user)
 
 
 class PostUser(Resource):

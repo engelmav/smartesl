@@ -1,4 +1,4 @@
-from models import Question, Metatag, Choice, User
+from models import Question, Metatag, Choice, User, QuestionSet, QuestionSetList
 from logger import log
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
@@ -9,7 +9,14 @@ engine = create_engine(db_conn_str)
 session = Session(bind=engine)
 
 
-def find_question_by_id(question_id: int) -> Optional[User]:
+def _get_values(d, *args):
+    values = []
+    for arg in args:
+        values.append(d[arg])
+    return values
+
+
+def get_question_by_id(question_id: int) -> Optional[User]:
     result = session.query(Question).\
             filter_by(question_id=question_id).first()
 
@@ -23,7 +30,7 @@ def create_multi_choice(question_dict: dict) -> Question:
     choices = question_dict['choices']
     user_id = question_dict['user_id']
     question = Question(body=body)
-    user_result = find_user_by_id(user_id)
+    user_result = get_user_by_id(user_id)
     question.creator = user_result.user_id
     for m in metatags:
         question.metatags.append(Metatag(tag_name=m, question=question))
@@ -36,7 +43,7 @@ def create_multi_choice(question_dict: dict) -> Question:
     return question
 
 
-def find_user_by_id(user_id: int) -> Optional[User]:
+def get_user_by_id(user_id: int) -> Optional[User]:
     result = session.query(User).\
             filter_by(user_id=user_id).first()
     log.debug("User returned: %s", user_id)
@@ -55,3 +62,23 @@ def create_user(user_dict: dict) -> int:
     session.add(user)
     session.commit()
     return user
+
+
+def create_question_set(question_set_dict: dict) -> Optional[QuestionSet]:
+    set_name, user_id, question_list = _get_values(
+        question_set_dict, 'set_name', 'creator_id', 'questions')
+
+    question_set = QuestionSet(set_name=set_name, creator_id=user_id)
+
+    for question_id in question_list:
+        question_set.questions.append(QuestionSetList(question_id=question_id))
+
+    session.add(question_set)
+    session.commit()
+
+    return question_set
+
+
+
+
+

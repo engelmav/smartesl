@@ -1,41 +1,41 @@
-get_user_data = """
-    SELECT userName, firstname, lastname, role FROM users
-    WHERE username = %s and password = %s;
-    """
+# get_user_data = """
+#     SELECT userName, firstname, lastname, role FROM users
+#     WHERE username = %s and password = %s;
+#     """
 
-get_question_by_id = """
-    SELECT
-      q.body
-      , c.choice_text
-    FROM questions q
-    LEFT JOIN choices c
-    ON q.question_id = c.question_id;
-    WHERE q.id = %s;
-    """
-
-add_instructor = """
-    INSERT INTO instructors ( firstname, lastname, email, phone_number )
-    values ( %s, %s, %s, %s );
-    """
-
-add_student = """
-    insert into students ( firstname, lastname, email, phone_number )
-    values ( %s, %s, %s, %s );"""
-
-add_question = """
-    insert into questions ( body )
-    values ( %s ) returning question_id;
-    """
-
-add_choice = """
-    insert into choices ( question_id, choice_text, iscorrect )
-    values ( %s, %s, %s );
-    """
-
-add_metatag = """
-    insert into metatags ( tag_name, question_id )
-    values ( %s, %s );
-    """
+# get_question_by_id = """
+#     SELECT
+#       q.body
+#       , c.choice_text
+#     FROM questions q
+#     LEFT JOIN choices c
+#     ON q.question_id = c.question_id;
+#     WHERE q.id = %s;
+#     """
+#
+# add_instructor = """
+#     INSERT INTO instructors ( firstname, lastname, email, phone_number )
+#     values ( %s, %s, %s, %s );
+#     """
+#
+# add_student = """
+#     insert into students ( firstname, lastname, email, phone_number )
+#     values ( %s, %s, %s, %s );"""
+#
+# add_question = """
+#     insert into questions ( body )
+#     values ( %s ) returning question_id;
+#     """
+#
+# add_choice = """
+#     insert into choices ( question_id, choice_text, iscorrect )
+#     values ( %s, %s, %s );
+#     """
+#
+# add_metatag = """
+#     insert into metatags ( tag_name, question_id )
+#     values ( %s, %s );
+#     """
 
 keyword_question_search = """
     select qid,body from (
@@ -64,7 +64,7 @@ keyword_timeline_search = """
 
 insert_timeline_questions = """
     insert into question_sets
-        (creator_id, set_name,vote_score)
+        (creator_id, set_name, vote_score)
         values ((select user_id from users where username = %s), %s, 0)
     returning set_id;
     """
