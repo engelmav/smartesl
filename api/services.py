@@ -9,7 +9,7 @@ engine = create_engine(db_conn_str)
 session = Session(bind=engine)
 
 
-def _get_values(d, *args):
+def _get_values(d: dict, *args: list):
     values = []
     for arg in args:
         values.append(d[arg])
@@ -64,6 +64,12 @@ def create_user(user_dict: dict) -> int:
     return user
 
 
+def get_question_set_by_id(question_set_id: int) -> QuestionSet:
+    qs = session.query(QuestionSet).\
+        filter_by(question_set_id=question_set_id).first()
+    return qs
+
+
 def create_question_set(question_set_dict: dict) -> Optional[QuestionSet]:
     set_name, user_id, question_list = _get_values(
         question_set_dict, 'set_name', 'creator_id', 'questions')
@@ -77,6 +83,23 @@ def create_question_set(question_set_dict: dict) -> Optional[QuestionSet]:
     session.commit()
 
     return question_set
+
+
+def get_class_by_id():
+    pass
+
+
+def create_class():
+    pass
+
+
+def get_classes_by_instructor():
+
+
+
+
+def get_class_by_student():
+    pass
 
 
 
