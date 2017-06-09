@@ -1,9 +1,10 @@
-from models import Question, Metatag, Choice, User, QuestionSet, QuestionSetList
+from models import Question, Metatag, Choice, User, QuestionSet, \
+    QuestionSetList, Class, UserClass
 from logger import log
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from config import db_conn_str
-from typing import Optional
+from typing import Optional, List
 
 engine = create_engine(db_conn_str)
 session = Session(bind=engine)
@@ -85,20 +86,34 @@ def create_question_set(question_set_dict: dict) -> Optional[QuestionSet]:
     return question_set
 
 
-def get_class_by_id():
+def get_class_by_id(class_id) -> Class:
+    class_ = session.query(Class).filter_by(class_id=class_id).first()
+    return class_
+
+
+def create_class(class_dict: dict) -> Class:
+    class_ = Class(class_name=class_dict['class_name'])
+    session.add(class_)
+    session.commit()
+    return class_
+
+
+def add_user_to_class(user_id: int, class_id: int) -> Class:
+    user = get_user_by_id(user_id)
+    class_ = get_class_by_id(class_id)
+    if user_id is None or class_ is None:
+        return None
+    user_class = UserClass(user_id=user_id, class_id=class_id)
+    session.add(user_class)
+    session.commit()
+    return user_class
+
+
+def get_classes_by_instructor(instructor_id: int) -> List[Class]:
     pass
 
 
-def create_class():
-    pass
-
-
-def get_classes_by_instructor():
-
-
-
-
-def get_class_by_student():
+def get_classes_by_student():
     pass
 
 

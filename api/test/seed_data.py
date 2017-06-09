@@ -20,3 +20,7 @@ dummy_user = {
     'email': 'someemail@email.com',
     'role': 'student'
 }
+
+dummy_class = {
+    'class_name': 'Some Class!'
+}

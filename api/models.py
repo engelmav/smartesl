@@ -24,11 +24,13 @@ class Class(Base):
     class_name = Column(Text)
 
 
-t_instructor_classes = Table(
-    'instructor_classes', metadata,
-    Column('instructor_id', Integer),
-    Column('class_id', Integer)
-)
+class UserClass(Base):
+    # TODO: composite primary key with uniqueness constraint is required
+    __tablename__ = 'user_classes'
+
+    user_class_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer)
+    class_id = Column(Integer)
 
 
 class Metatag(Base):

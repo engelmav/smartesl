@@ -1,5 +1,5 @@
 import services as s
-from .seed_data import dummy_question, dummy_question2, dummy_user
+from .seed_data import dummy_question, dummy_question2, dummy_user, dummy_class
 
 
 def test_find_user_by_id():
@@ -38,4 +38,23 @@ def test_create_question_set():
 
     qs = s.create_question_set(question_set)
     assert qs.set_name == set_name
+
+
+def test_create_class():
+    class_ = s.create_class(dummy_class)
+    assert class_.class_name == dummy_class['class_name']
+
+
+def test_get_class():
+    class_id = 2
+    class_ = s.get_class_by_id(class_id)
+    assert class_.class_id == class_id
+
+
+def test_add_user_to_class():
+    user_class = s.add_user_to_class(
+        s.get_user_by_id(108).user_id,
+        s.get_class_by_id(2).class_id
+    )
+    assert user_class.class_id == 2 and user_class.user_id == 108
 
