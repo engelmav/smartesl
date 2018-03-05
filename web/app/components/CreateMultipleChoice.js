@@ -1,14 +1,14 @@
 var React = require('react');
 var PropTypes = require('prop-types');
 var TagsInput = require('react-tagsinput');
-require('react-tagsinput/react-tagsinput.css');
+var ReactTooltip = require('react-tooltip');
 
 class CreateMultipleChoice extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             questionBody: '',
-            choices:['choice1', 'choice2', 'choice3'],
+            choices:['choice 1', 'choice 2', 'choice 3'],
             tags: [],
             answer: ''
         }
@@ -29,7 +29,10 @@ class CreateMultipleChoice extends React.Component {
             return ( 
                 <div key={idx}>
                     <input type="text" placeholder={choice} />
-                    <input type="checkbox"></input> 
+                    <input data-tip data-for="correctAnswer" type="checkbox"></input> 
+                    <ReactTooltip id="correctAnswer">
+                        <span>Mark as correct answer</span>
+                    </ReactTooltip>
                     <br />
                 </div>
             )
@@ -50,8 +53,8 @@ class CreateMultipleChoice extends React.Component {
                     <p>See guidelines and examples.</p>
                     {this.state.choices.map(choiceInput)}
 
-                    <h2>Meta Tags</h2>
-                    <p>Note what language features or vocabulary this question is testing. See our list of suggestions.</p>
+                    <h2>Topics</h2>
+                    <p>What language features does this question test?</p>
                     <TagsInput value={this.state.tags} onChange={this.handleChange} />
                     <br />
 
