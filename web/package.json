@@ -41,6 +41,7 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-router-dom": "^4.1.1",
-    "react-tagsinput": "^3.16.1"
+    "react-tagsinput": "^3.16.1",
+    "react-tooltip": "^3.4.0"
   }
 }
