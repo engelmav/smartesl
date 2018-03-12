@@ -2,34 +2,44 @@ var React = require('react');
 var PropTypes = require('prop-types');
 var TagsInput = require('react-tagsinput');
 var ReactTooltip = require('react-tooltip');
+import axios from 'axios'
+var smarteflApi = axios.create({ baseURL: 'http://localhost:5999/api/' });
 
 class CreateMultipleChoice extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             questionBody: '',
-            choices:['choice 1', 'choice 2', 'choice 3'],
+            choices: ['choice 1', 'choice 2', 'choice 3'],
             tags: [],
             answer: ''
         }
         this.setQuestionBody = this.setQuestionBody.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     setQuestionBody(event) {
         this.setState({ questionBody: event.target.value })
     }
 
-    handleChange(tags){
-        this.setState({tags})
+    handleChange(tags) {
+        this.setState({ tags })
     }
 
-    render () {
+    handleSubmit(e) {
+        console.log('submitting question data')
+        smarteflApi.post('/multi_choice/', this.state)
+            // note! promise is swallowing error.
+            .then((result) => console.log('posted'), (error) => console.log(error));
+    }
+
+    render() {
         var choiceInput = (choice, idx) => {
-            return ( 
+            return (
                 <div key={idx}>
                     <input type="text" placeholder={choice} />
-                    <input data-tip data-for="correctAnswer" type="checkbox"></input> 
+                    <input data-tip data-for="correctAnswer" type="checkbox"></input>
                     <ReactTooltip id="correctAnswer">
                         <span>Mark as correct answer</span>
                     </ReactTooltip>

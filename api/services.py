@@ -108,6 +108,10 @@ def add_user_to_class(user_id: int, class_id: int) -> Class:
     session.commit()
     return user_class
 
+def remove_user_from_class(user_id: int, class_id: int) -> Class:
+    session.query(UserClass).filter(UserClass.class_id==class_id).filter(UserClass.user_id==user_id).delete()
+    session.commit()
+
 
 def get_classes_by_instructor(instructor_id: int) -> List[Class]:
     pass

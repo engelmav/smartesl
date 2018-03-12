@@ -1,5 +1,11 @@
 import services as s
 from .seed_data import dummy_question, dummy_question2, dummy_user, dummy_class
+import pytest
+from config import db_conn_str
+
+@pytest.fixture(scope="session")
+def connection(request):
+    engine = create_engine
 
 
 def test_find_user_by_id():
@@ -57,4 +63,5 @@ def test_add_user_to_class():
         s.get_class_by_id(2).class_id
     )
     assert user_class.class_id == 2 and user_class.user_id == 108
+    s.remove_user_from_class(108, 2)
 
