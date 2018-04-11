@@ -17,21 +17,25 @@ class CreateMultipleChoice extends React.Component {
         this.setQuestionBody = this.setQuestionBody.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleError = this.handleError.bind(this);
     }
 
     setQuestionBody(event) {
         this.setState({ questionBody: event.target.value })
     }
 
-    handleChange(tags) {
+    handleChange (tags) {
         this.setState({ tags })
+    }
+
+    handleError (error) {
+        console.log("Error attempting to save question:", error);
     }
 
     handleSubmit(e) {
         console.log('submitting question data')
         smarteflApi.post('/multi_choice/', this.state)
-            // note! promise is swallowing error.
-            .then((result) => console.log('posted'), (error) => console.log(error));
+            .then((result) => console.log('posted'), (error) => { this.handleError(error) });
     }
 
     render() {

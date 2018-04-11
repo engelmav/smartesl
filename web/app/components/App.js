@@ -1,12 +1,11 @@
-var React = require('react');
-var ReactRouter = require('react-router-dom');
-var Router = ReactRouter.BrowserRouter;
-var Route = ReactRouter.Route;
-var Switch = ReactRouter.Switch;
-var Nav = require('./Nav');
-var MultipleChoice = require('./MultipleChoice');
-var CreateMultipleChoice = require('./CreateMultipleChoice');
-var Home = require('./Home');
+import React from 'react';
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom'
+import Nav from './Nav';
+import MultipleChoice from './MultipleChoice';
+import CreateMultipleChoice from './CreateMultipleChoice';
+import Home from './Home';
+
+var Router = BrowserRouter;
 
 class App extends React.Component {
     render () {
@@ -18,7 +17,7 @@ class App extends React.Component {
                         <Route exact path='/' component={Home} />
                         <Route exact path='/answer_question' component={MultipleChoice} />
                         <Route exact path='/create_question' component={CreateMultipleChoice} />
-                        <Route render={() => { return <p>N'hi ha res aqui!</p>}} />
+                        <Route render={() => { return <p>N'hi ha res aqui!</p> }} />
                     </Switch>
                 </div>
             </Router>
