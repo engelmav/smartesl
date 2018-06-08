@@ -34,17 +34,13 @@ def test_get_question_200(app):
 
 
 def test_post_question(app):
-    r = app.post("/api/multi_choice/",
-                 data=json.dumps(dummy_question),
-                 content_type='application/json')
+    r = app.post("/api/multi_choice/", content_type='application/json',
+                 data=json.dumps(dummy_question))
     response = r.data.decode('utf8')
     question_data = json.loads(response)
-    log.info("Question data in  test_post_question: %s", response)
-    assert r.headers['Access-Control-Allow-Origin'] == '*'
     assert question_data['metatags'][0]['tag_name'] == 'preterit'
     assert question_data['choices'][0]['choice_text'] == 'conceive'
     assert r.status_code == 200
-    print(headers)
 
 
 def test_get_user(app):

@@ -47,8 +47,8 @@ def test_create_question_set():
 
 
 def test_create_class():
-    class_ = s.create_class(dummy_class)
-    assert class_.class_name == dummy_class['class_name']
+    language_class = s.create_class(dummy_class)
+    assert language_class.class_name == dummy_class['class_name']
 
 
 def test_get_class():
