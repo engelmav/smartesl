@@ -21,4 +21,4 @@ if is_ci_build == None:
         db_conn_str = config_json[environment]['db_connection_str']
 else:
     log.debug("Initializing in CI pipeline")
-    db_conn_str = "ci_smartefl_db"
+    db_conn_str = "postgresql://localhost/travis_ci_test"
