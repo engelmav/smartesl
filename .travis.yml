@@ -1,5 +1,6 @@
 env:
   global:
+    - CI_BUILD=true
     - PYTHONPATH="/home/travis/build/engelmav/smartesl/api"
 language: python
 python:
