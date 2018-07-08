@@ -1,6 +1,6 @@
 env:
   global:
-    - PYTHONPATH="/home/travis/build/engelmav/smartesl"
+    - PYTHONPATH="/home/travis/build/engelmav/smartesl/api"
 language: python
 python:
   - "3.6"
