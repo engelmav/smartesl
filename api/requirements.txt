@@ -37,7 +37,7 @@ pytest==3.1.0
 python-dateutil==2.6.0
 pytz==2017.2
 pytzdata==2017.2
-PyYAML==3.12
+PyYAML==5.4
 simplejson==3.10.0
 six==1.10.0
 sqlacodegen==1.1.6
